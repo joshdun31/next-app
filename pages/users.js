@@ -12,7 +12,7 @@ export default function Users(props) {
 }
 
 export async function getServerSideProps(context) {
-    const res= await fetch('http://localhost:3000/api/users')
+    const res= await fetch('https://serene-engelbart-f5988f.netlify.app/api/users')
     const data= await res.json()
     return {
       props: {data:data}, // will be passed to the page component as props
