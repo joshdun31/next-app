@@ -8,7 +8,7 @@ export default function CreateUser(props){
     async function handleSubmit(e) {
         e.preventDefault()
         try {
-            const res= await axios.post("http://localhost:3000/api/users",{
+            const res= await axios.post("https://serene-engelbart-f5988f.netlify.app/api/users",{
                     name:name,
                     email:email
                 }
