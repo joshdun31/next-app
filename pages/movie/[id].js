@@ -15,9 +15,11 @@ function Movie(props) {
 
                 <meta property="og:type" content="website"/>
                 <meta property="og:url" content={"https://serene-engelbart-f5988f.netlify.app"+router.asPath}/>
+                <meta property="og:site_name" content="ZFlix" />
                 <meta property="og:title" content={props.data.title}/>
                 <meta property="og:description" content={props.data.overview}/>
                 <meta property="og:image" content={"https://image.tmdb.org/t/p/w780"+props.data.poster_path}/>
+                
                 <meta property="twitter:card" content="summary_large_image"/>
                 <meta property="twitter:url" content={"https://serene-engelbart-f5988f.netlify.app"+router.asPath}/>
                 <meta property="twitter:title" content={props.data.title}/>
