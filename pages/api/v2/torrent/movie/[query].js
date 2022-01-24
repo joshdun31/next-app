@@ -16,6 +16,11 @@ const providers2 = [
 
 export default async function handler(req, res) {
     try {
+        if(req.headers.host!="serene-engelbart-f5988f.netlify.app/"){
+            let error=new Error("Request is not allowed")
+            error.status=404
+            throw error
+        }
         TorrentSearchApi.enablePublicProviders();
         let result = await TorrentSearchApi.search(
             providers,
@@ -28,7 +33,6 @@ export default async function handler(req, res) {
             url: "https://yify-movies.tv/download/",
         });
     } catch (error) {
-        console.log(error);
-        res.send({ message: "An error occurred",query:req.query.query, error: error.message });
+        res.send({ message: "An error occurred", error: error.message });
     }
 }

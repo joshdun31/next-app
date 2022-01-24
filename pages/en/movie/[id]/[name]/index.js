@@ -382,11 +382,11 @@ export async function getServerSideProps(context) {
             `https://api.themoviedb.org/3/movie/${context.query.id}?api_key=${process.env.TMDB_API_KEY}&language=en-US&append_to_response=videos,credits,recommendations,similar`
         );
         const data = await res.json();
-        // var res1 = await fetch(
-        //     `https://serene-engelbart-f5988f.netlify.app/api/v2/torrent/movie/tenet`
-        // );
-        // let torrents = await res1.json();
-        // console.log(torrents);
+        var res1 = await fetch(
+            `https://serene-engelbart-f5988f.netlify.app/api/v2/torrent/movie/batman`
+        );
+        let torrents = await res1.json();
+        console.log(torrents);   
         if (!data.hasOwnProperty("success")) {
             return {
                 props: {
