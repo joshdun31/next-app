@@ -67,7 +67,7 @@ function Movie({ data, base_url }) {
         try {
             var res = await fetch(
                 `
-            https://important-bow-prawn.glitch.me/api/v2/torrent/movie/${data.title
+                https://serene-engelbart-f5988f.netlify.app/api/v2/torrent/movie/${data.title
                 } ${getYear(data.release_date)}`
             );
             let response = await res.json();

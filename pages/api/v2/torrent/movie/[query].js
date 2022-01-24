@@ -18,7 +18,7 @@ export default async function handler(req, res) {
     try {
         TorrentSearchApi.enablePublicProviders();
         let result = await TorrentSearchApi.search(
-            providers2,
+            providers,
             req.query.query,
             "Movies",
         );
