@@ -5,8 +5,8 @@ import Head from 'next/head';
 function Home({movieData,tvData}) {
     return (
         <div>
-            {/* <Head> */}
-                {/* <title>ZFlix | Home</title> */}
+            <Head>
+                <title>ZFlix | Home</title>
                 {/* <meta name="title" content={data.title} />
                 <meta name="description" content={data.overview}/>
 
@@ -22,7 +22,7 @@ function Home({movieData,tvData}) {
                 <meta property="twitter:title" content={data.title}/>
                 <meta property="twitter:description" content={data.overview}/>
                 <meta property="twitter:image" content={"https://image.tmdb.org/t/p/w780"+data.poster_path}></meta> */}
-            {/* </Head> */}
+            </Head>
             <div className={"main_content"}>
                 <section className="section-main">
                     <div className="section-header">
@@ -61,7 +61,7 @@ function Home({movieData,tvData}) {
     );
 }
 
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
     try {
         const movieRes=await fetch(`https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.TMDB_API_KEY}`)
         const movieData=await movieRes.json()
