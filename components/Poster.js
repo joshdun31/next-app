@@ -21,9 +21,9 @@ function Poster({item,type}) {
       }
     return(
         <>
-            <a href={getLink()}>
-                <img src={"https://image.tmdb.org/t/p/w780"+item.poster_path} alt="" srcset="" />
-            </a>
+            <Link href={getLink()}>
+                <a><img src={"https://image.tmdb.org/t/p/w780"+item.poster_path} alt="" srcset="" /></a>
+            </Link>
             <style jsx>
                 {
                     `

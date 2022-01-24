@@ -47,7 +47,6 @@ function convertMoney(labelValue) {
 function Movie({ data, base_url }) {
     const router = useRouter();
     const [torrents, settorrents] = useState({});
-
     useEffect(() => {
         settorrents({});
         async function getAllResults() {
@@ -67,11 +66,10 @@ function Movie({ data, base_url }) {
         try {
             var res = await fetch(
                 `
-                https://serene-engelbart-f5988f.netlify.app/api/v2/torrent/movie/${data.title
+                /api/v2/torrent/movie/${data.title
                 } ${getYear(data.release_date)}`
             );
             let response = await res.json();
-            console.log(response);
             settorrents(response);
         } catch (error) {
             console.log(error);
@@ -384,12 +382,17 @@ export async function getServerSideProps(context) {
             `https://api.themoviedb.org/3/movie/${context.query.id}?api_key=${process.env.TMDB_API_KEY}&language=en-US&append_to_response=videos,credits,recommendations,similar`
         );
         const data = await res.json();
+        // var res1 = await fetch(
+        //     `
+        //     https://serene-engelbart-f5988f.netlify.app/api/v2/torrent/movie/${data.title
+        //     } ${getYear(data.release_date)}`
+        // );
+        // let torrents = await res1.json();
         if (!data.hasOwnProperty("success")) {
             return {
                 props: {
                     data,
-                    base_url: process.env.BASE_URL,
-                },
+                    base_url: process.env.BASE_URL                },
             };
         }
         return {
