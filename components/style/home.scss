@@ -1,0 +1,171 @@
+$nav-color:#1a1a1a;
+$bg-color:#0d0d0d;
+$color-3:#141414;
+$image-bg:#282828;
+$text-color:#f2f2f2;
+$text-light-color:#dadada;
+$text-lighter-color:#bababa;
+
+//poster
+$p-bg:#282828;
+
+$p-lg-w:155px;
+$p-lg-h:215px;
+$p-sm-w:125px;
+$p-sm-h:160px;
+$p-c-lg-w:850px;
+
+$r-lg-w:130px;
+$r-lg-h:180px;
+
+$e-lg-w:200px;
+$e-lg-h:120px;
+$e-sm-w:140px;
+$e-sm-h:200px;
+
+body{
+    background-color: $bg-color;
+    color: $text-color;
+}
+*::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+  }
+  
+  /* Handle */
+  *::-webkit-scrollbar-thumb {
+    background: rgba(80, 80, 80,0.6);
+    border-radius: 3px;
+  }
+  
+  /* Handle on hover */
+  *::-webkit-scrollbar-thumb:hover {
+    background: rgba(120, 120, 120,0.6);
+  }
+  
+
+.main_content {
+    padding: 0px 1.5rem;
+    width: calc(100%);
+    padding-top: 84px;
+    background-color: $bg-color;
+    color: $text-color;
+    .section-main {
+        max-width: $p-c-lg-w;
+        margin: 3rem auto 0rem;
+
+        .section-header {
+            text-align: center;
+            margin: 10px 10px 20px 10px;
+            p {
+                font-size: 0.85rem;
+                font-weight: 300;
+                margin-top: 0px;
+            }
+        }
+
+        .whole-poster {
+            width: 100%;
+            overflow-y: hidden;
+            margin: 12px auto;
+            position: relative;
+            padding: 0px 0px;
+
+            .poster-container {
+                display: flex;
+                scroll-behavior: smooth;
+
+                // overflow-x: hidden;
+                .poster {
+                    width: $p-lg-w;
+                    height: $p-lg-h;
+                    margin: 10px 0px 8px 14px;
+                    border-radius: 3px;
+                    position: relative;
+                    background-color: #222;
+                    transition: all 0.5s ease-in-out;
+
+                    &:first-child {
+                        margin-left: 0px;
+                    }
+
+                    .poster-image {
+                        width: $p-lg-w;
+                        height: $p-lg-h;
+                        border-radius: 5px;
+                        background-color: $p-bg;
+                        object-fit: cover;
+                        cursor: pointer;
+                    }
+
+                    .poster-detail {
+                        padding: 10px 12px 10px;
+                        position: absolute;
+                        bottom: 0px;
+                        left: 0px;
+                        width: 100%;
+                        border-bottom-left-radius: 3px;
+                        border-bottom-right-radius: 3px;
+                        background-color: rgba($color: #030303, $alpha: 0.9);
+
+                        .poster-title {
+                            color: rgba(220, 220, 220, 1);
+                            font-size: 0.85rem;
+                            font-weight: 600;
+
+                            &:hover {
+                                color: rgba(240, 240, 240, 1);
+                            }
+
+                            // overflow: hidden;
+                            // text-overflow: ellipsis;
+                            // -webkit-line-clamp: 1;
+                            // -webkit-box-orient: vertical;
+                            // white-space: normal;
+                        }
+
+                        .poster-year {
+                            font-size: 0.7rem;
+                            font-weight: 300;
+                            margin-top: 2px;
+                            color: rgba(160, 160, 160, 1);
+                        }
+                    }
+                }
+            }
+
+            .poster-container.active {
+                transition: transform 0.2s ease-in-out;
+                transform: scale(1.05);
+
+            }
+
+            .arrow {
+                position: absolute;
+                top: 50%;
+                z-index: 100;
+
+                padding: 10px 12px;
+                transform: translateY(-50%);
+                cursor: pointer;
+                // height: 100%;
+                display: grid;
+                place-items: center;
+            }
+
+            .left-arrow {
+                left: 0;
+                background: linear-gradient(to left, transparent, #101010 0%);
+            }
+
+            .right-arrow {
+                right: 0;
+                background: linear-gradient(to right, transparent, #101010 0%);
+            }
+        }
+    }
+}
