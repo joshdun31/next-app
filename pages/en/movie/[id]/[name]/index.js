@@ -383,11 +383,10 @@ export async function getServerSideProps(context) {
         );
         const data = await res.json();
         // var res1 = await fetch(
-        //     `
-        //     https://serene-engelbart-f5988f.netlify.app/api/v2/torrent/movie/${data.title
-        //     } ${getYear(data.release_date)}`
+        //     `https://serene-engelbart-f5988f.netlify.app/api/v2/torrent/movie/tenet`
         // );
         // let torrents = await res1.json();
+        // console.log(torrents);
         if (!data.hasOwnProperty("success")) {
             return {
                 props: {
