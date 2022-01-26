@@ -1,27 +1,5 @@
-$nav-color:#1a1a1a;
-$bg-color:#0d0d0d;
-$color-3:#141414;
-$image-bg:#282828;
-$text-color:#f2f2f2;
-$text-light-color:#dadada;
-$text-lighter-color:#bababa;
-
-//poster
-$p-bg:#282828;
-
-$p-lg-w:155px;
-$p-lg-h:215px;
-$p-sm-w:125px;
-$p-sm-h:160px;
-$p-c-lg-w:850px;
-
-$r-lg-w:130px;
-$r-lg-h:180px;
-
-$e-lg-w:200px;
-$e-lg-h:120px;
-$e-sm-w:140px;
-$e-sm-h:200px;
+@use  "../abstracts/colors" as *;
+@use  "../abstracts/fonts" as *;
 
 .genres {
     font-size: 0.78rem;
@@ -40,10 +18,17 @@ $e-sm-h:200px;
     }
 }
 
+.dot {
+    font-size: 1.6rem;
+    font-weight: bolder;
+    margin: 0px 10px;
+}
 .w_content {
     width: 100vw;
     position: relative;
     padding-bottom: 20px;
+    background-color: $bg-color;
+    color: $text-color;
     .content {
         width: 100%;
         min-height: 100vh;
@@ -372,7 +357,7 @@ $e-sm-h:200px;
                 position: relative;
                 overflow-y: hidden;
                 .r_poster_container{
-                    // display: flex;
+                    display: flex;
                     width: 100%;
                     margin-top: 10px;
                     overflow-x: auto;
@@ -511,5 +496,100 @@ $e-sm-h:200px;
     .watch-container.active {
         opacity: 1;
         visibility: visible;
+    }
+}
+
+
+@media screen and (max-width:800px) {
+    .w_content {
+        .content {
+            .content_parent {
+                .content_hero {
+                    width: 100%;
+                    padding: 180px 10px 40px;
+                    align-items: flex-end;
+                    position: relative;
+
+                    .content_info {
+                        flex-direction: column;
+                        width: 100%;
+                        align-items: center;
+
+                        .content_poster {
+                            // display: none;
+                            height: 220px;
+                            width: 160px;
+                            align-self: center;
+
+                            img {
+                                width: 160px;
+                                height: 220px;
+                            }
+                        }
+
+                        .content_plot {
+                            padding: 10px 10px;
+                            width: 100%;
+
+                            .content_title {
+                                font-size: 1.35rem;
+                                margin-bottom: 6px;
+                            }
+
+                            p,
+                            h2 {
+                                word-wrap: break-word;
+                            }
+                        }
+                        .content_o_details{
+                            padding: 12px 0px;
+                            align-self: start;
+                        }
+                    }
+                }
+
+                .content_c {
+                    width: 100%;
+                    padding: 0px 20px 10px;
+                    max-width: 100%;
+                    .c_container{
+                        .c_parent{
+                            margin-right: 20px;
+                            .c_detail{
+                                width: max-content;
+                            }
+                        }
+                    }
+                   
+                }
+                .c_header{
+                    h2{
+                        font-size: 1.1rem;
+                    }
+                    .h_line{
+                        width: 10px;
+                    }
+                }
+                .recommendation_container{
+                    width: calc(100% - 40px);
+                    margin: 0px 20px 5px;
+                    max-width: 100%;
+                    .r_poster_container{
+                        &::-webkit-scrollbar {
+                            width: 0px;
+                            height: 0px;
+                          }
+                    }
+                }
+            }
+        }
+
+        .watch_container {
+            height: 43vh;
+
+            iframe {
+                height: 30vh;
+            }
+        }
     }
 }

@@ -1,7 +1,6 @@
 module.exports = {
   reactStrictMode: true,
-  async headers(){
-    return [
+  headers:[
       {
         "source": "/api/(.*)",
         "headers": [
@@ -17,6 +16,8 @@ module.exports = {
           }
         ]
       }
-    ]
-  }
+    ],
+    images: {
+      domains: ['image.tmdb.org'],
+    },
 }

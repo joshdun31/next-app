@@ -1,0 +1,22 @@
+@use  "../abstracts/colors" as *;
+@use  "../abstracts/fonts" as *;
+
+.poster_link{
+    margin-right: 12px;
+    margin-bottom: 8px;
+}
+.poster_container{
+    width: $p-lg-w;
+    height: $p-lg-h;
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+    background-color: $p-bg;
+}
+
+@media screen and (max-width:600px) {
+    .poster_container{
+        width: $p-sm-w;
+        height: $p-sm-h;
+    }
+}

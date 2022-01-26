@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import styles from "../../../../../components/style/movie.module.scss";
+import styles from '../../../../../scss/components/movie.module.scss';
 import Head from "next/head";
 import { getYear } from "../../../../../utils/functions";
 import Poster from "../../../../../components/Poster";
@@ -72,7 +72,6 @@ function Movie({ data, base_url }) {
             let response = await res.json();
             settorrents(response);
         } catch (error) {
-            console.log(error);
             console.log("Cannot find torrents");
         }
     };
@@ -382,16 +381,16 @@ export async function getServerSideProps(context) {
             `https://api.themoviedb.org/3/movie/${context.query.id}?api_key=${process.env.TMDB_API_KEY}&language=en-US&append_to_response=videos,credits,recommendations,similar`
         );
         const data = await res.json();
-        var res1 = await fetch(
-            `https://serene-engelbart-f5988f.netlify.app/api/v2/torrent/movie/batman`
-        );
-        let torrents = await res1.json();
-        console.log(torrents);   
+        // var res1 = await fetch(
+        //     `https://serene-engelbart-f5988f.netlify.app/api/v2/torrent/movie/matrix`
+        // );
+        // let torrents = await res1.json();
         if (!data.hasOwnProperty("success")) {
             return {
                 props: {
                     data,
-                    base_url: process.env.BASE_URL                },
+                    base_url: process.env.BASE_URL                
+                },
             };
         }
         return {
