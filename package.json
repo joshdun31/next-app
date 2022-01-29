@@ -11,6 +11,7 @@
     "axios": "^0.25.0",
     "babel-plugin-macros": "^3.1.0",
     "bootstrap-icons": "^1.7.2",
+    "framer-motion": "^6.2.3",
     "mongoose": "^6.1.7",
     "next": "12.0.8",
     "next-page-transitions": "^1.0.0-beta.2",

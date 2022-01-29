@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import styles from '../scss/components/poster.module.scss';
+import { motion } from "framer-motion";
 
 function Poster({ item, type }) {
   const getYear = (date) => {
@@ -14,6 +15,16 @@ function Poster({ item, type }) {
     var s = removeSpecialCharacters(title);
     return s.replace(/\s+/g, "-").toLowerCase();
   };
+
+  const getHref=()=>{
+    if (type === "movie") {
+      return (
+        "/en/movie/[id]/[name]")
+      }
+      else
+      return (
+        "/en/tv/[id]/[name]")
+  }
 
   const getLink = () => {
     if (type === "movie") {
@@ -37,8 +48,11 @@ function Poster({ item, type }) {
   };
   return (
     <>
-      <Link href={getLink()}>
-        <a className={styles.poster_link}>
+      <Link href={getHref()} as={getLink()} passHref>
+        <motion.a 
+          className={styles.poster_link} 
+          whileTap={{ scale: 0.9 }}
+        > 
           <div className={styles.poster_container}>
             <Image
               src={"https://image.tmdb.org/t/p/w780" + item.poster_path}
@@ -49,7 +63,7 @@ function Poster({ item, type }) {
               alt={item.title}
             />
           </div>
-        </a>
+        </motion.a>
       </Link>
     </>
   );

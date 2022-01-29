@@ -1,7 +1,7 @@
 import "../styles/globals.css";
 import { PageTransition } from "next-page-transitions";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import Layout from '../components/layout'
+import Layout from '../components/Layout'
 
 function MyApp({ Component, pageProps, router }) {
   // eval(
@@ -43,11 +43,11 @@ function MyApp({ Component, pageProps, router }) {
 
   return (
     <>
-      <PageTransition timeout={250} classNames="page-transition">
-        <Layout>
+      <Layout>
+        {/* <PageTransition timeout={250} classNames="page-transition"> */}
           <Component {...pageProps} key={router.route} />
-        </Layout>
-      </PageTransition>
+        {/* </PageTransition> */}
+      </Layout>
       <style jsx global>{`
         .page-transition-enter {
           opacity: 0;

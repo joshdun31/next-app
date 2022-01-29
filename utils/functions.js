@@ -36,3 +36,29 @@ export const getDate = (date) => {
       date?.split("-")[0]
   );
 };
+
+export const getMonth = (date) => {
+  return months[date?.slice(5, 7) - 1];
+};
+
+export const getHour = (runtime) => {
+  return " " + Math.floor(runtime / 60).toString();
+};
+
+export const getMinute = (runtime) => {
+  return runtime % 60;
+};
+
+
+export function convertMoney(labelValue) {
+  // Nine Zeroes for Billions
+  return Math.abs(Number(labelValue)) >= 1.0e9
+      ? Number(Math.abs(Number(labelValue) / 1.0e9).toFixed(2)) + " billion"
+      : // Six Zeroes for Millions
+      Math.abs(Number(labelValue)) >= 1.0e6
+          ? Number(Math.abs(Number(labelValue) / 1.0e6).toFixed(2)) + " million"
+          : // Three Zeroes for Thousands
+          Math.abs(Number(labelValue)) >= 1.0e3
+              ? Number(Math.abs(Number(labelValue) / 1.0e3).toFixed(2)) + " thousand"
+              : Math.abs(Number(labelValue));
+}

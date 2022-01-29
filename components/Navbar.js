@@ -11,6 +11,7 @@ function Navbar() {
     const [searchShow, setsearchShow] = useState(false);
     const [query, setquery] = useState("");
     const inputRef = useRef();
+    const navbarRef=useRef()
     const [results, setresults] = useState({});
     const [searchContainerVisible, setsearchContainerVisible] = useState(false);
     const [currentSuggestion, setcurrentSuggestion] = useState(0);
@@ -33,13 +34,13 @@ function Navbar() {
                 setsearchContainerVisible(false);
             }
         });
-        // window.onscroll = (e) => {
-        //     if (window.pageYOffset > 1) {
-        //         document.querySelector(".navbar").classList.add("scroll");
-        //     } else {
-        //         document.querySelector(".navbar").classList.remove("scroll");
-        //     }
-        // };
+        window.onscroll = (e) => {
+            if (window.pageYOffset > 1) {
+                navbarRef.current.classList.add(styles.scroll);
+            } else {
+                navbarRef.current.classList.remove(styles.scroll);
+            }
+        };
 
         if (pathname === "/en/search") {
             setquery(router.query.q)
@@ -113,9 +114,9 @@ function Navbar() {
         // setcurrentSuggestion(i)
     }
     return (
-        <nav className={styles.navbar} id="navbar">
+        <nav className={styles.navbar} ref={navbarRef} id="navbar">
             <div className={styles.nav_left_part}>
-                <Link href="/en">
+                <Link href="/en" passHref>
                     <a>
                         <div className={styles.nav_header}>
                             <img src="/assets/apple-touch-icon.png" alt="" srcset="" />
