@@ -1,14 +1,18 @@
-import WatchMovie from "../../../../../components/WatchMovie";
+import Tv from "../../../../../components/Tv";
 
-export default function watch({data,base_url}) {
+function TvPage({data,base_url}) {
     
-    return <WatchMovie data={data} base_url={base_url}  />
-};
+    return(
+        <main>
+            <Tv data={data} base_url={base_url} />
+        </main>
+    )
+}
 
 export async function getServerSideProps(context) {
     try {
         const res = await fetch(
-            `https://api.themoviedb.org/3/movie/${context.query.id}?api_key=${process.env.TMDB_API_KEY}&language=en-US&append_to_response=videos,credits,recommendations,similar`
+            `https://api.themoviedb.org/3/tv/${context.query.id}?api_key=${process.env.TMDB_API_KEY}&language=en-US&append_to_response=videos,credits,recommendations,similar`
         );
         const data = await res.json();
         if (!data.hasOwnProperty("success")) {
@@ -28,3 +32,5 @@ export async function getServerSideProps(context) {
         };
     }
 }
+
+export default TvPage;

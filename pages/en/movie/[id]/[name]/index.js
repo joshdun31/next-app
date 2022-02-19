@@ -1,27 +1,19 @@
-import Movie from '../../../../../components/Movie';
+import Movie from "../../../../../components/Movie";
 import { motion } from "framer-motion";
 
 function MoviePage({ data, base_url }) {
-
     const config = {
         type: "spring",
         damping: 20,
         stiffness: 100,
-      };
+    };
 
     //   transition={config}
     //   initial={{ scale: 1, opacity: 0,y:50 }}
     //   animate={{ scale: 1, opacity: 1 ,y:0}}
-    //   exit={{ x: 0, opacity: 0 }} 
-      
+    //   exit={{ x: 0, opacity: 0 }}
 
-    return (
-        <main
-           
-        >
-            <Movie data={data} base_url={base_url}  />
-        </main>
-    );
+    return <Movie data={data} base_url={base_url} />;
 }
 
 export async function getServerSideProps(context) {
@@ -30,15 +22,11 @@ export async function getServerSideProps(context) {
             `https://api.themoviedb.org/3/movie/${context.query.id}?api_key=${process.env.TMDB_API_KEY}&language=en-US&append_to_response=videos,credits,recommendations,similar`
         );
         const data = await res.json();
-        // var res1 = await fetch(
-        //     `https://serene-engelbart-f5988f.netlify.app/api/v2/torrent/movie/matrix`
-        // );
-        // let torrents = await res1.json();
         if (!data.hasOwnProperty("success")) {
             return {
                 props: {
                     data,
-                    base_url: process.env.BASE_URL                
+                    base_url: process.env.BASE_URL,
                 },
             };
         }

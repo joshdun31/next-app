@@ -5,7 +5,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 40px 12px 60px;
+    padding: 10px 40px 10px 60px;
     top: 0;
     left: 0;
     position: fixed;
@@ -22,7 +22,9 @@
 
     .nav_left_part {
         display: flex;
-
+        justify-content: center;
+        align-items: center;
+        
         .nav_list {
             margin-left: 15px;
 
@@ -48,8 +50,8 @@
     .nav_header {
         img {
             transition: all 0.2s ease-in-out;
-            width: 50px;
-            height: 50px;
+            width: 44px;
+            height: 44px;
         }
     }
 
@@ -298,6 +300,188 @@
 
 }
 
+.navbar_sm{
+    display: none;
+    top: 0;
+    left: 0;
+    position: fixed;
+    width: 100vw;
+    padding: 8px 0px;
+    z-index: 100;
+    transition: background-color 0.3s ease-in-out;
+    background-color: rgba($color: #181818, $alpha: 0.25);
+    .nav_row_1{
+        display: flex;
+        padding: 0px 14px;
+        justify-content: space-between;
+        align-items: center;
+        .nav_ham_container{
+            .ham_line{
+                width: 24px;
+                height: 2px;
+                margin-bottom: 5px;
+                background-color: #c5c5c5;
+            }
+        }
+        .nav_header{
+            .nav_header_image {
+                img {
+                    width:36px;
+                    height:36px;
+                }
+            }
+        }
+        .nav_search{
+            i {
+                color: #c5c5c5;
+                font-weight: 400;
+                font-size: 1.25rem;
+
+            }
+        }
+    }
+    .nav_row_2{
+        transition: opacity 0.3s ease-in-out;
+        display: none;
+        background-color: $nav-color;
+        justify-content: center;
+        align-items: center;
+        border-radius: 2px;
+        border: 1px solid #1f1f1f;
+        position: relative;
+        margin: 0px 10px;
+        width: calc(100vw - 20px);
+        color: $text-color;
+        form {
+            input {
+                width: calc(100vw - 20px);
+                outline: none;
+                border: none;
+                color: #dadada;
+                background-color: transparent;
+                font-size: 13px;
+                padding: 10px 15px;
+                transition: width 0.5s ease-in-out, background-color 0.5s ease-in-out, padding 0.5s 0.5s ease-in-out;
+
+                &::placeholder {
+                    font-weight: 400;
+                    color: #8d8d8d;
+                }
+            }
+        }
+        .search_results{
+            position: absolute;
+            left: 0;
+            top: 45px;
+            width: 100%;
+            background-color: #0d0d0d;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px -2px #444;
+            overflow: hidden;
+            transition: all 0.3s ease-in-out;
+            max-height: 0px;
+            .result{
+                display: flex;
+                padding: 8px 10px 5px;
+                position: relative;
+                border-bottom: 1px solid #222;
+                .r_left{
+                    img{
+                        width: 55px;
+                        height: 80px;
+                        border-radius: 3px;
+                        object-fit: cover;
+                        background-color: $p-bg;
+                    }
+                    .no_image{
+                        object-fit: contain;
+                        padding: 5px;
+                    }
+                }
+                .r_right{
+                    color: $text-light-color;
+                    padding-left: 10px;
+                    flex: 1;
+                    p{
+                        font-size: 0.75rem;
+                        color: inherit;
+                        line-height: 1.15rem;
+                    }
+                    p.title{
+                        font-size: 0.8rem;
+                        color: $text-color;
+                        font-weight: bold;
+                    }
+                    i{
+                        color: $text-light-color;
+                    }
+                    .media_type{
+                        width: max-content;
+                        padding: 2px 5px;
+                        margin-left: auto;
+                        font-size: 0.7rem;
+                        border-radius: 5px;
+                        border: 1px solid $text-lighter-color;
+                    }
+                }
+                &:hover{
+                    background-color: #1a1a1a;
+                }
+            }
+            .more_results{
+                padding: 10px;
+                display: flex;
+                justify-content: space-between;
+            }
+        }
+        .search_results.active{
+            // height: auto
+            max-height: 450px;
+        }
+    }
+    .nav_row_2.active{
+        display: flex;
+    }
+}
+
+.nav_sidebar{
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: -100vw;
+    z-index: 100;
+    display: none;
+    transition: left 0.3s ease-in-out;
+    .nav_side_container{
+        height: 100vh;
+        width: 60vw;
+        background-color: $nav-color;
+        color: $text-color;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        .nav_close{
+            align-self: flex-end;
+            i{
+                font-size: 1.5rem;
+                font-weight: 400;
+            }
+        }
+        ul{
+            list-style: none;
+            li{
+                padding: 15px;
+            }
+        }
+    }
+}
+
+.nav_sidebar.active{
+    left: 0;
+    background: #0d0d0dbb;
+    transition: left 0.3s ease-in-out,background 0.3s ease-in-out 0.15s;
+}
 .navbar.scroll {
     position: fixed;
     background-color: rgba($color: #181818, $alpha: 0.8);
@@ -313,6 +497,12 @@
 
     // box-shadow: 0px 0px 15px -5px #444;
 }
+.navbar_sm.scroll {
+    position: fixed;
+    background-color: rgba($color: #181818, $alpha: 0.8);
+    backdrop-filter: blur(5px);
+    // box-shadow: 0px 0px 15px -5px #444;
+}
 
 .navbar.hide {
     top: -76px;
@@ -325,21 +515,14 @@
 
 @media screen and (max-width:600px) {
     .navbar {
-        padding: 6px 10px 6px 20px;
-        .nav_header {
-            img {
-                width: 40px;
-                height: 40px;
-            }
-        }
-
-        .nav_middle {
-            display: none;
-        }
-
-        .search_container {
-            display: none;
-        }
+        
+        display: none;
+    }
+    .navbar_sm{
+        display: block;
+    }
+    .nav_sidebar{
+        display: block;
     }
     .navbar.scroll{
         padding: 6px 10px 6px 20px;

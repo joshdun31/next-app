@@ -1,5 +1,4 @@
 import "../styles/globals.css";
-import { PageTransition } from "next-page-transitions";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Layout from '../components/Layout'
 
