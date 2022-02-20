@@ -57,11 +57,23 @@ function Tv({ data, base_url }) {
                         <div className={styles2.content_hero}>
                             <div className={styles2.content_info}>
                                 <div className={styles2.content_poster}>
-                                    <img
-                                        src={"https://image.tmdb.org/t/p/w780" + data.poster_path}
-                                        alt=""
-                                        srcset=""
-                                    />
+                                    <div className={data.poster_path?styles2.content_poster_image:styles2.content_poster_image+' '+styles2.no_image}>
+                                        <Image
+                                            src={
+                                                data.poster_path
+                                                    ? "https://image.tmdb.org/t/p/w780" + data.poster_path
+                                                    : "/assets/image-not-found.png"
+                                            }
+                                            layout="fill"
+                                            placeholder="blur"
+                                            objectFit={data.poster_path?"cover":"contain"}
+                                            objectPosition={data.poster_path?"top":"center"}
+                                            blurDataURL={
+                                                "https://image.tmdb.org/t/p/w780" + data.poster_path
+                                            }
+                                            alt={data.title}
+                                        />
+                                    </div>
                                 </div>
                                 <div className={styles2.content_plot}>
                                     <h2 className={styles2.content_title}>{data.name}</h2>

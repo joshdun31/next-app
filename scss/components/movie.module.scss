@@ -15,6 +15,7 @@
         margin-bottom: 5px;
         border-radius: 5px;
         background-color: rgba($color: #ccc, $alpha: 0.1);
+        cursor: pointer;
     }
 }
 
@@ -72,20 +73,27 @@
 
                     // align-items: center;
                     .content_poster {
-                        width: 220px;
-                        height: 350px;
-                        position: relative;
+                        width: 210px;
+                        height: 320px;
                         background-color: #222;
                         // background:linear-gradient(135deg,#030303 40%,#383838) ;
                         border-radius: 8px;
                         align-self: flex-end;
-
-                        img {
-                            width: 220px;
-                            height: 350px;
+                        position: relative;
+                        
+                        .content_poster_image{
+                            width: 210px;
+                            height: 320px;
                             object-fit: cover;
                             object-position: top;
+                            overflow: hidden;
+                            position: relative;
                             border-radius: inherit;
+                        }
+                        .content_poster_image.no_image{
+                            img{
+                                padding: 15px !important;
+                            }
                         }
                     }
                 }
