@@ -20,7 +20,7 @@ function Movie({ data, base_url }) {
         async function getAllResults() {
             await getTorrents();
         }
-        getAllResults();
+        getAllResults()
         return () => { };
     }, [router.query]);
 
