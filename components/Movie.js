@@ -11,6 +11,8 @@ import {
 } from "../utils/functions";
 import styles from "../scss/components/movie.module.scss";
 import Link from "next/link";
+import Image from "next/image";
+import styles3 from '../scss/components/cast.module.scss';
 
 function Movie({ data, base_url }) {
     const router = useRouter();
@@ -239,82 +241,68 @@ function Movie({ data, base_url }) {
                             </div>
                         </div>
 
-                        {/* <div className="content-c" >
-                        <div className="c-header">
-                        <div className="h-line" />
-                        <h2>Cast</h2>
-                        <div className="h-line" />
-                        </div>
-                        <ScrollContainer className="c-container">
-                        {data.credits.cast.map((item) => (
-                            <div className="c-parent">
-                            {item.profile_path ? (
-                                <img
-                                className="c-image"
-                                src={
-                                    "https://image.tmdb.org/t/p/original" +
-                                    item.profile_path
-                                }
-                                alt=""
-                                />
-                            ) : (
-                                <div className="no-image-container">
-                                <img
-                                    className="no-image"
-                                    src="/assets/image-not-found.png"
-                                    alt="not found"
-                                    srcset=""
-                                />
+                        {data?.credits?.cast.length ? (
+                            <div className={styles3.content_c} >
+                                <div className={styles.c_header} >
+                                    <div className={styles.h_line}  />
+                                    <h2>Cast</h2>
+                                    <div className={styles.h_line}  />
                                 </div>
-                            )}
-                            <div className="c-detail">
-                                <p className="c-name">{item.name}</p>
-                                <p className="c-job">
-                                <em>{item.character}</em>
-                                </p>
-                            </div>
-                            </div>
-                        ))}
-                        </ScrollContainer>
-                    </div>
-                    <div className="content-c">
-                        <div className="c-header">
-                        <div className="h-line" />
-                        <h2>Crew</h2>
-                        <div className="h-line" />
-                        </div>
-                        <ScrollContainer className="c-container">
-                        {data.credits.crew.map((item) => (
-                            <div className="c-parent">
-                            {item.profile_path ? (
-                                <img
-                                className="c-image"
-                                src={
-                                    "https://image.tmdb.org/t/p/original" +
-                                    item.profile_path
-                                }
-                                alt=""
-                                />
-                            ) : (
-                                <div className="no-image-container">
-                                <img
-                                    className="no-image"
-                                    src="/assets/image-not-found.png"
-                                    alt="not found"
-                                    srcset=""
-                                />
+                                <div className={styles3.c_container} >
+                                    {data?.credits?.cast.map((item) => (
+                                        <div className={styles3.c_parent} >
+                                            <div className={item.profile_path ?styles3.c_image:styles3.c_image+' '+styles3.no_image}>
+                                                <Image
+                                                    src={item.profile_path ?"https://image.tmdb.org/t/p/w780" + item.profile_path:"/assets/image-not-found.png"}
+                                                    layout="fill"
+                                                    placeholder="blur"
+                                                    objectFit="cover"
+                                                    blurDataURL={"https://image.tmdb.org/t/p/w780" + item.profile_path}
+                                                    alt={item.title}
+                                                    />
+                                            </div>
+                                            <div className={styles3.c_detail} >
+                                                <p className={styles3.c_name} >{item.name}</p>
+                                                <p className={styles3.c_job} >
+                                                    <em>{item.character}</em>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
-                            )}
-                            <div className="c-detail">
-                                <p className="c-name">{item.name}</p>
-                                <p className="c-job">
-                                <em>{item.job}</em>
-                                </p>
                             </div>
+                        ) : null}
+                        {data?.credits?.crew.length ? (
+                            <div className={styles3.content_c} >
+                                <div className={styles.c_header} >
+                                    <div className={styles.h_line}  />
+                                    <h2>Crew</h2>
+                                    <div className={styles.h_line}  />
+                                </div>
+                                <div className={styles3.c_container} >
+                                    {data?.credits?.crew.map((item) => (
+                                        <div className={styles3.c_parent} >
+                                            <div className={item.profile_path ?styles3.c_image:styles3.c_image+' '+styles3.no_image}>
+                                                <Image
+                                                    src={item.profile_path ?("https://image.tmdb.org/t/p/w780" + item.profile_path):"/assets/image-not-found.png"}
+                                                    layout="fill"
+                                                    placeholder="blur"
+                                                    objectFit="cover"
+                                                    blurDataURL={"https://image.tmdb.org/t/p/w780" + item.profile_path}
+                                                    alt={item.title}
+                                                    />
+                                            </div>
+                                            <div className={styles3.c_detail} >
+                                                <p className={styles3.c_name} >{item.name}</p>
+                                                <p className={styles3.c_job} >
+                                                    <em>{item.job}</em>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                        ))}
-                        </ScrollContainer>
-                    </div> */}
+                        ) : null}
                         {data.recommendations.results.length ? (
                             <div className={styles.recommendation_container}>
                                 <div className={styles.c_header}>

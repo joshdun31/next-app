@@ -4,7 +4,8 @@ import Link from 'next/link';
 import { useRouter } from "next/router";
 import styles from '../scss/components/tv.module.scss';
 import styles2 from '../scss/components/movie.module.scss';
-
+import styles3 from '../scss/components/cast.module.scss';
+import Image from "next/image";
 
 function Tv({ data, base_url }) {
     const router = useRouter();
@@ -68,7 +69,7 @@ function Tv({ data, base_url }) {
                                     <p className={styles2.content_details}>
                                         <i className="bi bi-calendar-day"></i>{" "}
                                         {getYear(data.first_air_date)}
-                                        <span className="dot">.</span>
+                                        <span className={styles2.dot} >.</span>
                                         <span>
                                             <i className="bi bi-star-fill"></i> {data.vote_average}
                                         </span>
@@ -99,10 +100,10 @@ function Tv({ data, base_url }) {
                             </div>
                         </div>
                         <div className={styles.season_container}>
-                            <div className={styles.c_header}>
-                                <div className={styles.h_line} />
+                            <div className={styles2.c_header}>
+                                <div className={styles2.h_line} />
                                 <h2>Seasons</h2>
-                                <div className={styles.h_line} />
+                                <div className={styles2.h_line} />
                             </div>
                             <div className={styles.season_dropdown}>
                                 <div className={styles.seasons}>
@@ -143,38 +144,29 @@ function Tv({ data, base_url }) {
                                 </div>
                             </div>
                         </div>
-                        {/* {data?.credits?.cast.length ? (
-                            <div className="content-c">
-                                <div className="c-header">
-                                    <div className="h-line" />
+                        {data?.credits?.cast.length ? (
+                            <div className={styles3.content_c} >
+                                <div className={styles2.c_header} >
+                                    <div className={styles2.h_line}  />
                                     <h2>Cast</h2>
-                                    <div className="h-line" />
+                                    <div className={styles2.h_line}  />
                                 </div>
-                                <div className="c-container">
+                                <div className={styles3.c_container} >
                                     {data?.credits?.cast.map((item) => (
-                                        <div className="c-parent">
-                                            {item.profile_path ? (
-                                                <img
-                                                    className="c-image"
-                                                    src={
-                                                        "https://image.tmdb.org/t/p/original" +
-                                                        item.profile_path
-                                                    }
-                                                    alt=""
-                                                />
-                                            ) : (
-                                                <div className="no-image-container">
-                                                    <img
-                                                        className="no-image"
-                                                        src="/assets/image-not-found.png"
-                                                        alt="not found"
-                                                        srcset=""
+                                        <div className={styles3.c_parent} >
+                                            <div className={item.profile_path ?styles3.c_image:styles3.c_image+' '+styles3.no_image}>
+                                                <Image
+                                                    src={item.profile_path ?"https://image.tmdb.org/t/p/w780" + item.profile_path:"/assets/image-not-found.png"}
+                                                    layout="fill"
+                                                    placeholder="blur"
+                                                    objectFit="cover"
+                                                    blurDataURL={"https://image.tmdb.org/t/p/w780" + item.profile_path}
+                                                    alt={item.title}
                                                     />
-                                                </div>
-                                            )}
-                                            <div className="c-detail">
-                                                <p className="c-name">{item.name}</p>
-                                                <p className="c-job">
+                                            </div>
+                                            <div className={styles3.c_detail} >
+                                                <p className={styles3.c_name} >{item.name}</p>
+                                                <p className={styles3.c_job} >
                                                     <em>{item.character}</em>
                                                 </p>
                                             </div>
@@ -184,37 +176,28 @@ function Tv({ data, base_url }) {
                             </div>
                         ) : null}
                         {data?.credits?.crew.length ? (
-                            <div className="content-c">
-                                <div className="c-header">
-                                    <div className="h-line" />
+                            <div className={styles3.content_c} >
+                                <div className={styles3.c_header} >
+                                    <div className={styles2.h_line}  />
                                     <h2>Crew</h2>
-                                    <div className="h-line" />
+                                    <div className={styles2.h_line}  />
                                 </div>
-                                <div className="c-container">
+                                <div className={styles3.c_container} >
                                     {data?.credits?.crew.map((item) => (
-                                        <div className="c-parent">
-                                            {item.profile_path ? (
-                                                <img
-                                                    className="c-image"
-                                                    src={
-                                                        "https://image.tmdb.org/t/p/original" +
-                                                        item.profile_path
-                                                    }
-                                                    alt=""
-                                                />
-                                            ) : (
-                                                <div className="no-image-container">
-                                                    <img
-                                                        className="no-image"
-                                                        src="/assets/image-not-found.png"
-                                                        alt="not found"
-                                                        srcset=""
+                                        <div className={styles3.c_parent} >
+                                            <div className={item.profile_path ?styles3.c_image:styles3.c_image+' '+styles3.no_image}>
+                                                <Image
+                                                    src={item.profile_path ?("https://image.tmdb.org/t/p/w780" + item.profile_path):"/assets/image-not-found.png"}
+                                                    layout="fill"
+                                                    placeholder="blur"
+                                                    objectFit="cover"
+                                                    blurDataURL={"https://image.tmdb.org/t/p/w780" + item.profile_path}
+                                                    alt={item.title}
                                                     />
-                                                </div>
-                                            )}
-                                            <div className="c-detail">
-                                                <p className="c-name">{item.name}</p>
-                                                <p className="c-job">
+                                            </div>
+                                            <div className={styles3.c_detail} >
+                                                <p className={styles3.c_name} >{item.name}</p>
+                                                <p className={styles3.c_job} >
                                                     <em>{item.job}</em>
                                                 </p>
                                             </div>
@@ -222,7 +205,7 @@ function Tv({ data, base_url }) {
                                     ))}
                                 </div>
                             </div>
-                        ) : null} */}
+                        ) : null}
                     </div>
                 </div>
             </div>

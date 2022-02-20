@@ -13,7 +13,7 @@
     z-index: 100;
     background-color: rgba($color: $color-3, $alpha:0.3);
     transition: all 0.2s ease-in-out;
-    backdrop-filter: blur(1px);
+    backdrop-filter: blur(3px);
     color: $text-color;
     &:hover {
         background-color: rgba($color: $color-3, $alpha:0.8);
@@ -310,6 +310,8 @@
     z-index: 100;
     transition: background-color 0.3s ease-in-out;
     background-color: rgba($color: #181818, $alpha: 0.25);
+    backdrop-filter: blur(3px);
+    color: $text-color;
     .nav_row_1{
         display: flex;
         padding: 0px 14px;
@@ -464,7 +466,7 @@
         .nav_close{
             align-self: flex-end;
             i{
-                font-size: 1.5rem;
+                font-size: 2rem;
                 font-weight: 400;
             }
         }
@@ -484,24 +486,14 @@
 }
 .navbar.scroll {
     position: fixed;
-    background-color: rgba($color: #181818, $alpha: 0.8);
-    padding: 6px 40px 6px 60px;
-    backdrop-filter: blur(5px);
-
-    .nav_header {
-        img {
-            width: 45px;
-            height: 45px;
-        }
-    }
-
-    // box-shadow: 0px 0px 15px -5px #444;
+    background-color: rgba($color: #181818, $alpha: 0.6);
+    padding: 10px 40px 10px 60px;
+    backdrop-filter: blur(10px);
 }
 .navbar_sm.scroll {
     position: fixed;
-    background-color: rgba($color: #181818, $alpha: 0.8);
-    backdrop-filter: blur(5px);
-    // box-shadow: 0px 0px 15px -5px #444;
+    background-color: rgba($color: #181818, $alpha: 0.6);
+    backdrop-filter: blur(10px);
 }
 
 .navbar.hide {
