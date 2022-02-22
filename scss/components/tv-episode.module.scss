@@ -1,6 +1,9 @@
 @use  "../abstracts/colors" as *;
 @use  "../abstracts/fonts" as *;
 
+@use  "../abstracts/colors" as *;
+@use  "../abstracts/fonts" as *;
+
 .watch_section {
     width: 100%;
     position: absolute;
@@ -24,6 +27,9 @@
             font-size: 0.9rem;
             text-align: justify;
         }
+        .episode_title{
+            color: $text-lighter-color;
+        }
         
         .w_info{
             font-size: 0.8rem;
@@ -31,6 +37,7 @@
         }
         .overview{
             color: $text-light-color;
+            margin-top: 5px;
         }
     }
 }

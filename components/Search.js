@@ -1,9 +1,5 @@
 import {
-    getMonth,
-    getMinute,
     getYear,
-    convertMoney,
-    getHour,
     getDate,
     covertToLinkWords,
 } from "../utils/functions";

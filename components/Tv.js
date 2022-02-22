@@ -17,7 +17,7 @@ function Tv({ data, base_url }) {
         let year = data.first_air_date ? " (" + getYear(data.first_air_date) + ")" : "";
         return title + year + " - ZFlix";
     }
-    console.log(data);
+    
     return (
         <>
             <Head>
@@ -127,29 +127,31 @@ function Tv({ data, base_url }) {
                                                     id +
                                                     "/" +
                                                     name +
-                                                    "/season-" +
+                                                    "/season/" +
                                                     item.season_number
                                                 }
                                             >
-                                                <div className={styles.season} >
-                                                    <img
-                                                        src={
-                                                            "https://image.tmdb.org/t/p/w500" +
-                                                            item.poster_path
-                                                        }
-                                                        alt=""
-                                                    />
-                                                    <div className={styles.s_content} >
-                                                        
-                                                        <div className={styles.s_no} >
-                                                            Season {item.season_number}
+                                                <a>
+                                                    <div className={styles.season} >
+                                                        <img
+                                                            src={
+                                                                "https://image.tmdb.org/t/p/w500" +
+                                                                item.poster_path
+                                                            }
+                                                            alt=""
+                                                        />
+                                                        <div className={styles.s_content} >
+                                                            
+                                                            <div className={styles.s_no} >
+                                                                Season {item.season_number}
+                                                            </div>
+                                                            {/* <div className="s-overview">{item.overview}</div> */}
+                                                            <p className={styles.s_e_count}>
+                                                                {item.episode_count} Episodes
+                                                            </p>
                                                         </div>
-                                                        {/* <div className="s-overview">{item.overview}</div> */}
-                                                        <p className={styles.s_e_count}>
-                                                            {item.episode_count} Episodes
-                                                        </p>
                                                     </div>
-                                                </div>
+                                                </a>
                                             </Link>
                                         ) : null;
                                     })}
