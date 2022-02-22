@@ -2,11 +2,7 @@ import Tv from "../../../../../components/Tv";
 
 function TvPage({data,base_url}) {
     
-    return(
-        <main>
-            <Tv data={data} base_url={base_url} />
-        </main>
-    )
+    return <Tv data={data} base_url={base_url} />
 }
 
 export async function getServerSideProps(context) {

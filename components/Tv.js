@@ -17,7 +17,7 @@ function Tv({ data, base_url }) {
         let year = data.first_air_date ? " (" + getYear(data.first_air_date) + ")" : "";
         return title + year + " - ZFlix";
     }
-    console.log(data);
+    
     return (
         <>
             <Head>
@@ -57,11 +57,23 @@ function Tv({ data, base_url }) {
                         <div className={styles2.content_hero}>
                             <div className={styles2.content_info}>
                                 <div className={styles2.content_poster}>
-                                    <img
-                                        src={"https://image.tmdb.org/t/p/w780" + data.poster_path}
-                                        alt=""
-                                        srcset=""
-                                    />
+                                    <div className={data.poster_path?styles2.content_poster_image:styles2.content_poster_image+' '+styles2.no_image}>
+                                        <Image
+                                            src={
+                                                data.poster_path
+                                                    ? "https://image.tmdb.org/t/p/w780" + data.poster_path
+                                                    : "/assets/image-not-found.png"
+                                            }
+                                            layout="fill"
+                                            placeholder="blur"
+                                            objectFit={data.poster_path?"cover":"contain"}
+                                            objectPosition={data.poster_path?"top":"center"}
+                                            blurDataURL={
+                                                "https://image.tmdb.org/t/p/w780" + data.poster_path
+                                            }
+                                            alt={data.title}
+                                        />
+                                    </div>
                                 </div>
                                 <div className={styles2.content_plot}>
                                     <h2 className={styles2.content_title}>{data.name}</h2>
@@ -115,29 +127,31 @@ function Tv({ data, base_url }) {
                                                     id +
                                                     "/" +
                                                     name +
-                                                    "/season-" +
+                                                    "/season/" +
                                                     item.season_number
                                                 }
                                             >
-                                                <div className={styles.season} >
-                                                    <img
-                                                        src={
-                                                            "https://image.tmdb.org/t/p/w500" +
-                                                            item.poster_path
-                                                        }
-                                                        alt=""
-                                                    />
-                                                    <div className={styles.s_content} >
-                                                        
-                                                        <div className={styles.s_no} >
-                                                            Season {item.season_number}
+                                                <a>
+                                                    <div className={styles.season} >
+                                                        <img
+                                                            src={
+                                                                "https://image.tmdb.org/t/p/w500" +
+                                                                item.poster_path
+                                                            }
+                                                            alt=""
+                                                        />
+                                                        <div className={styles.s_content} >
+                                                            
+                                                            <div className={styles.s_no} >
+                                                                Season {item.season_number}
+                                                            </div>
+                                                            {/* <div className="s-overview">{item.overview}</div> */}
+                                                            <p className={styles.s_e_count}>
+                                                                {item.episode_count} Episodes
+                                                            </p>
                                                         </div>
-                                                        {/* <div className="s-overview">{item.overview}</div> */}
-                                                        <p className={styles.s_e_count}>
-                                                            {item.episode_count} Episodes
-                                                        </p>
                                                     </div>
-                                                </div>
+                                                </a>
                                             </Link>
                                         ) : null;
                                     })}

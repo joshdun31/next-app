@@ -84,11 +84,23 @@ function Movie({ data, base_url }) {
                         <div className={styles.content_hero}>
                             <div className={styles.content_info}>
                                 <div className={styles.content_poster}>
-                                    <img
-                                        src={"https://image.tmdb.org/t/p/w780" + data.poster_path}
-                                        alt=""
-                                        srcset=""
-                                    />
+                                    <div className={data.poster_path?styles.content_poster_image:styles.content_poster_image+' '+styles.no_image}>
+                                        <Image
+                                            src={
+                                                data.poster_path
+                                                    ? "https://image.tmdb.org/t/p/w780" + data.poster_path
+                                                    : "/assets/image-not-found.png"
+                                            }
+                                            layout="fill"
+                                            placeholder="blur"
+                                            objectFit={data.poster_path?"cover":"contain"}
+                                            objectPosition={data.poster_path?"top":"center"}
+                                            blurDataURL={
+                                                "https://image.tmdb.org/t/p/w780" + data.poster_path
+                                            }
+                                            alt={data.title}
+                                        />
+                                    </div>
                                 </div>
 
                                 <div className={styles.content_plot}>
