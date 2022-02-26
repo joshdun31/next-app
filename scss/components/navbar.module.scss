@@ -301,12 +301,12 @@
 }
 
 .navbar_sm{
-    display: none;
+    display: block;
     top: 0;
     left: 0;
     position: fixed;
     width: 100vw;
-    padding: 8px 0px;
+    padding: 12px 0px;
     z-index: 100;
     transition: background-color 0.3s ease-in-out;
     background-color: rgba($color: #181818, $alpha: 0.25);
@@ -318,6 +318,7 @@
         justify-content: space-between;
         align-items: center;
         .nav_ham_container{
+            cursor: pointer;
             .ham_line{
                 width: 24px;
                 height: 2px;
@@ -327,6 +328,8 @@
         }
         .nav_header{
             .nav_header_image {
+                width:36px;
+                    height:36px;
                 img {
                     width:36px;
                     height:36px;
@@ -334,6 +337,7 @@
             }
         }
         .nav_search{
+            cursor: pointer;
             i {
                 color: #c5c5c5;
                 font-weight: 400;
@@ -453,7 +457,7 @@
     top: 0;
     left: -100vw;
     z-index: 100;
-    display: none;
+    display: block;
     transition: left 0.3s ease-in-out;
     .nav_side_container{
         height: 100vh;
@@ -465,6 +469,7 @@
         flex-direction: column;
         .nav_close{
             align-self: flex-end;
+            cursor: pointer;
             i{
                 font-size: 2rem;
                 font-weight: 400;
@@ -505,24 +510,24 @@
     top: 0px;
 }
 
-@media screen and (max-width:600px) {
-    .navbar {
+// @media screen and (max-width:600px) {
+//     .navbar {
         
-        display: none;
-    }
-    .navbar_sm{
-        display: block;
-    }
-    .nav_sidebar{
-        display: block;
-    }
-    .navbar.scroll{
-        padding: 6px 10px 6px 20px;
-        .nav_header {
-            img {
-                width: 40px;
-                height: 40px;
-            }
-        }
-    }
-}
+//         display: none;
+//     }
+//     .navbar_sm{
+//         display: block;
+//     }
+//     .nav_sidebar{
+//         display: block;
+//     }
+//     .navbar.scroll{
+//         padding: 6px 10px 6px 20px;
+//         .nav_header {
+//             img {
+//                 width: 40px;
+//                 height: 40px;
+//             }
+//         }
+//     }
+// }

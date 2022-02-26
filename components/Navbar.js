@@ -4,6 +4,7 @@ import axios from "axios";
 import { covertToLinkWords, getYear, getDate } from "../utils/functions";
 import { useRouter } from "next/router";
 import styles from "../scss/components/navbar.module.scss";
+import { useMediaQuery } from "react-responsive";
 
 function Navbar() {
     const [moviesDropdown, setmoviesDropdown] = useState(false);
@@ -24,55 +25,93 @@ function Navbar() {
     const router = useRouter();
     const { pathname } = router;
 
+    const isDesktopOrLaptop = useMediaQuery({
+        query: "(min-width: 875px)",
+    });
+    const isMobile = useMediaQuery({
+        query: "(max-width: 874px)",
+    });
+    const isBigScreen = useMediaQuery({ query: "(min-width: 1824px)" });
+    const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
+    const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
+    const isRetina = useMediaQuery({ query: "(min-resolution: 2dppx)" });
+
     useEffect(() => {
         document.addEventListener("keydown", (e) => {
-            if (e.ctrlKey && e.keyCode === 191) {
-                handleSearchToggle();
+            if (e.ctrlKey  && e.keyCode === 191) {
+                handleSearchToggle(1);
             }
             if (e.ctrlKey && e.shiftKey && e.keyCode === 72) {
                 router.push("/en");
             }
         });
         document.addEventListener("click", (e) => {
-            if (e.target.id !== "query") {
+            if (e.target.id !== "query" && e.target.id !== "search") {
                 setsearchContainerVisible(false);
+                if (isMobile) {
+                    setsearchBarActive(false)
+                }
             }
         });
         window.onscroll = (e) => {
-            inputRef.current.blur();
-            // setsearchBarActive(false)
-            if (window.pageYOffset > 1) {
-                navbarRef.current.classList.add(styles.scroll);
-                navbarSmRef.current.classList.add(styles.scroll);
+            if (isDesktopOrLaptop) {
+                inputRef.current.blur();
+                setsearchContainerVisible(false);
             } else {
-                navbarRef.current.classList.remove(styles.scroll);
-                navbarSmRef.current.classList.remove(styles.scroll);
+                // inputSmRef.current.blur();
+                // setsearchContainerVisible(false);
+            }
+
+            if (window.pageYOffset > 1) {
+                if (isDesktopOrLaptop) {
+                    navbarRef.current.classList.add(styles.scroll);
+                } else {
+                    navbarSmRef.current.classList.add(styles.scroll);
+                }
+            } else {
+                if (isDesktopOrLaptop) {
+                    navbarRef.current.classList.remove(styles.scroll);
+                } else {
+                    navbarSmRef.current.classList.remove(styles.scroll);
+                }
             }
         };
 
         if (pathname === "/en/search") {
             setquery(router.query.q);
         }
-        return () => { 
-            // document.removeEventListener('click',(e)=>{console.log("click removed");})
-            setsearchBarActive(false)
+        return () => {
+            document.removeEventListener('click', (e) => { console.log("click removed"); })
+            setsearchBarActive(false);
         };
-    }, []);
+    }, [isDesktopOrLaptop, isMobile]);
 
     useEffect(() => {
-        if (pathname !== "/en/search") {
+        if (pathname !== "/en/search" && isDesktopOrLaptop) {
             inputRef.current.blur();
         }
-        setsearchBarActive(false)
+        setsearchBarActive(false);
         return () => {
-            setsearchBarActive(false)
-         };
+            setsearchBarActive(false);
+        };
     }, [router.route]);
 
     let timer;
 
-    const handleSearchToggle = () => {
-        inputRef.current.focus();
+    useEffect(() => {
+        if (searchBarActive) {
+            handleSearchToggle(2)
+        }
+        return () => {
+        }
+    }, [searchBarActive])
+
+    const handleSearchToggle = (id) => {
+        if (id === 1) {
+            inputRef.current.focus();
+        } else {
+            inputSmRef.current.focus();
+        }
     };
     const clearSearch = () => {
         setquery("");
@@ -128,347 +167,380 @@ function Navbar() {
     }
     return (
         <>
-            <nav className={styles.navbar} ref={navbarRef} id="navbar">
-                <div className={styles.nav_left_part}>
-                    <Link href="/en" passHref>
-                        <a>
-                            <div className={styles.nav_header}>
-                                <img src="/assets/apple-touch-icon.png" alt="" srcset="" />
-                            </div>
-                        </a>
-                    </Link>
-                    <ul className={styles.nav_list + " " + styles.nav_middle}>
-                        <Link href="/en/movie">
-                            <a>
-                                <li
-                                    className={styles.nav_item + " " + styles.dropdown}
-                                    onMouseEnter={() => setmoviesDropdown(true)}
-                                    onMouseLeave={() => setmoviesDropdown(false)}
-                                >
-                                    Movies
-                                    <span>
-                                        <i
-                                            className={
-                                                moviesDropdown
-                                                    ? "bi bi-chevron-up"
-                                                    : "bi bi-chevron-down"
-                                            }
-                                        ></i>
-                                    </span>
-                                    <ul className={styles.nav_list_child + " " + styles.first}>
-                                        <Link href="/en/popular/movies">
-                                            <li
-                                                className={styles.nav_item_child + " " + styles.first}
-                                            >
-                                                Most Popular
-                                            </li>
-                                        </Link>
-                                        <Link href="/en/most-recent/movies">
-                                            <li className={styles.nav_item_child}>Most Recent</li>
-                                        </Link>
-                                        <Link href="/en/top-rated/movies">
-                                            <li className={styles.nav_item_child + " " + styles.last}>
-                                                Top Rated
-                                            </li>
-                                        </Link>
-                                    </ul>
-                                </li>
-                            </a>
-                        </Link>
-                        <Link href="/en/tv">
-                            <a>
-                                <li
-                                    className={styles.nav_item}
-                                    onMouseEnter={() => settvshowsDropdown(true)}
-                                    onMouseLeave={() => settvshowsDropdown(false)}
-                                >
-                                    TV Shows
-                                    <span>
-                                        <i
-                                            className={
-                                                tvshowsDropdown
-                                                    ? "bi bi-chevron-up"
-                                                    : "bi bi-chevron-down"
-                                            }
-                                        ></i>
-                                    </span>
-                                    <ul className={styles.nav_list_child + " " + styles.last}>
-                                        <Link href="/en/popular/tv-shows">
-                                            <li
-                                                className={styles.nav_item_child + " " + styles.first}
-                                            >
-                                                Most Popular
-                                            </li>
-                                        </Link>
-                                        <Link href="/en/most-recent/tv-shows">
-                                            <li className={styles.nav_item_child}>Most Recent</li>
-                                        </Link>
-                                        <Link href="/en/top-rated/tv-shows">
-                                            <li className={styles.nav_item_child + " " + styles.last}>
-                                                Top Rated
-                                            </li>
-                                        </Link>
-                                    </ul>
-                                </li>
-                            </a>
-                        </Link>
-                        <Link href="/en/login">
-                            <a>
-                                <li className={styles.nav_item}>Genre</li>
-                            </a>
-                        </Link>
-                    </ul>
-                </div>
-                <ul className={styles.nav_list}>
-                    <div className={styles.search_container}>
-                        <form onSubmit={handleSubmit}>
-                            <input
-                                ref={inputRef}
-                                autoComplete="false"
-                                autoCorrect="false"
-                                spellCheck={false}
-                                type="text"
-                                name="q"
-                                id="query"
-                                value={query}
-                                onFocus={() => setsearchContainerVisible(true)}
-                                onKeyUp={getResults}
-                                onKeyPress={handleKeyPress}
-                                onChange={(e) => setquery(e.target.value)}
-                                placeholder="What are you looking for?"
-                            />
-                        </form>
-
-                        {suggestionLoading ? (
-                            <li
-                                className={styles.nav_item + " " + styles.s + " " + styles.load}
-                            >
-                                <i class="bi bi-arrow-repeat"></i>
-                            </li>
-                        ) : (
-                            <li
-                                className={
-                                    query && query.length
-                                        ? styles.nav_item +
-                                        " " +
-                                        styles.clear +
-                                        " " +
-                                        styles.s +
-                                        " " +
-                                        styles.active
-                                        : styles.nav_item + " " + styles.clear + " " + styles.s
-                                }
-                                onClick={clearSearch}
-                            >
-                                <i className="bi bi-x-lg"></i>
-                            </li>
-                        )}
-
-                        <li
-                            className={styles.nav_item + " " + styles.search + " " + styles.s}
-                            onClick={handleSearchToggle}
-                        >
-                            <i className="bi bi-search"></i>
-                        </li>
-
-                        <ul
-                            className={
-                                searchContainerVisible
-                                    ? styles.s_results + " " + styles.active
-                                    : styles.s_results
-                            }
-                        >
-                            {results?.results
-                                ?.slice(0, 4)
-                                ?.map((item, i) =>
-                                    item.media_type === "movie" ? (
-                                        <Movie
-                                            index={i}
-                                            onhover={onhover}
-                                            key={item.id}
-                                            active={currentSuggestion === i ? true : false}
-                                            item={item}
-                                        />
-                                    ) : item.media_type === "tv" ? (
-                                        <Tv
-                                            key={item.id}
-                                            index={i}
-                                            onhover={onhover}
-                                            active={currentSuggestion === i ? true : false}
-                                            item={item}
-                                        />
-                                    ) : null
-                                )}
-                            {results?.results?.length > 4 ? (
-                                <li className={styles.more_results}>
-                                    <span>See more results</span>
-                                    <Link href={"/en/search?q=" + query + "&page=1"}>
-                                        <a>
-                                            <span>
-                                                <i className="bi bi-arrow-right"></i>
-                                            </span>
-                                        </a>
-                                    </Link>
-                                </li>
-                            ) : null}
-                        </ul>
-                    </div>
-                    {/* <Link href="/en/login">
-                    <a>
-                        <li className={styles.nav_item}>Login</li>
-                    </a>
-                </Link>
-                <Link href="/en/login">
-                    <a>
-                        <li className={styles.nav_item}>Sign Up</li>
-                    </a>
-                </Link> */}
-                </ul>
-            </nav>
-            <nav className={styles.navbar_sm} ref={navbarSmRef}>
-                <div className={styles.nav_row_1}>
-                    <div
-                        className={styles.nav_ham_container}
-                        onClick={() => setnavSide(true)}
-                    >
-                        <div className={styles.ham_line}></div>
-                        <div className={styles.ham_line}></div>
-                        <div className={styles.ham_line}></div>
-                    </div>
-                    <div className={styles.nav_header}>
+            {isDesktopOrLaptop ? (
+                <nav className={styles.navbar} ref={navbarRef} id="navbar">
+                    <div className={styles.nav_left_part}>
                         <Link href="/en" passHref>
                             <a>
-                                <div className={styles.nav_header_image}>
-                                    <img src="/assets/apple-touch-icon.png" alt="" srcset="" />
+                                <div className={styles.nav_header}>
+                                    <img src="/assets/apple-touch-icon.png" alt="" srcSet="" />
                                 </div>
                             </a>
                         </Link>
-                    </div>
-                    <div className={styles.nav_search} onClick={()=>{
-                            setsearchBarActive(prev=>!prev)
-                            if (searchBarActive) {
-                                handleSearchToggle()
-                            }
-                        }}>
-                        <i className="bi bi-search"></i>
-                    </div>
-                </div>
-                <div className={searchBarActive?styles.nav_row_2+" "+styles.active: styles.nav_row_2}>
-                    <form onSubmit={handleSubmit}>
-                        <input
-                            ref={inputSmRef}
-                            autoComplete="false"
-                            autoCorrect="false"
-                            spellCheck={false}
-                            type="text"
-                            name="q"
-                            id="query"
-                            value={query}
-                            onFocus={() => setsearchContainerVisible(true)}
-                            onKeyUp={getResults}
-                            onKeyPress={handleKeyPress}
-                            onChange={(e) => setquery(e.target.value)}
-                            placeholder="What are you looking for?"
-                        />
-                    </form>
-                    <ul
-                        className={
-                            searchContainerVisible
-                                ? styles.search_results + " " + styles.active
-                                : styles.search_results
-                        }
-                    >
-                        {results?.results
-                            ?.slice(0, 4)
-                            ?.map((item, i) =>
-                                item.media_type === "movie" ? (
-                                    <Movie
-                                        index={i}
-                                        onhover={onhover}
-                                        key={item.id}
-                                        active={currentSuggestion === i ? true : false}
-                                        item={item}
-                                    />
-                                ) : item.media_type === "tv" ? (
-                                    <Tv
-                                        key={item.id}
-                                        index={i}
-                                        onhover={onhover}
-                                        active={currentSuggestion === i ? true : false}
-                                        item={item}
-                                    />
-                                ) : null
-                            )}
-                            {results?.results?.length > 4 ? (
-                                <li className={styles.more_results}>
-                                    <span>See more results</span>
-                                    <Link href={"/en/search?q=" + query + "&page=1"}>
-                                        <a>
-                                            <span>
-                                                <i className="bi bi-arrow-right"></i>
-                                            </span>
-                                        </a>
-                                    </Link>
-                                </li>
-                            ) : null}
-                    </ul>
-                </div>
-            </nav>
-            <div
-                className={
-                    navSide
-                        ? styles.nav_sidebar + " " + styles.active
-                        : styles.nav_sidebar
-                }
-            >
-                <div className={styles.nav_side_container}>
-                    <div className={styles.nav_close} onClick={() => setnavSide(false)}>
-                        <i className="bi bi-x"></i>
+                        <ul className={styles.nav_list + " " + styles.nav_middle}>
+                            <Link href="/en/movie">
+                                <a>
+                                    <li
+                                        className={styles.nav_item + " " + styles.dropdown}
+                                        onMouseEnter={() => setmoviesDropdown(true)}
+                                        onMouseLeave={() => setmoviesDropdown(false)}
+                                    >
+                                        Movies
+                                        <span>
+                                            <i
+                                                className={
+                                                    moviesDropdown
+                                                        ? "bi bi-chevron-up"
+                                                        : "bi bi-chevron-down"
+                                                }
+                                            ></i>
+                                        </span>
+                                        <ul className={styles.nav_list_child + " " + styles.first}>
+                                            <Link href="/en/popular/movies">
+                                                <li
+                                                    className={styles.nav_item_child + " " + styles.first}
+                                                >
+                                                    Most Popular
+                                                </li>
+                                            </Link>
+                                            <Link href="/en/most-recent/movies">
+                                                <li className={styles.nav_item_child}>Most Recent</li>
+                                            </Link>
+                                            <Link href="/en/top-rated/movies">
+                                                <li
+                                                    className={styles.nav_item_child + " " + styles.last}
+                                                >
+                                                    Top Rated
+                                                </li>
+                                            </Link>
+                                        </ul>
+                                    </li>
+                                </a>
+                            </Link>
+                            <Link href="/en/tv">
+                                <a>
+                                    <li
+                                        className={styles.nav_item}
+                                        onMouseEnter={() => settvshowsDropdown(true)}
+                                        onMouseLeave={() => settvshowsDropdown(false)}
+                                    >
+                                        TV Shows
+                                        <span>
+                                            <i
+                                                className={
+                                                    tvshowsDropdown
+                                                        ? "bi bi-chevron-up"
+                                                        : "bi bi-chevron-down"
+                                                }
+                                            ></i>
+                                        </span>
+                                        <ul className={styles.nav_list_child + " " + styles.last}>
+                                            <Link href="/en/popular/tv-shows">
+                                                <li
+                                                    className={styles.nav_item_child + " " + styles.first}
+                                                >
+                                                    Most Popular
+                                                </li>
+                                            </Link>
+                                            <Link href="/en/most-recent/tv-shows">
+                                                <li className={styles.nav_item_child}>Most Recent</li>
+                                            </Link>
+                                            <Link href="/en/top-rated/tv-shows">
+                                                <li
+                                                    className={styles.nav_item_child + " " + styles.last}
+                                                >
+                                                    Top Rated
+                                                </li>
+                                            </Link>
+                                        </ul>
+                                    </li>
+                                </a>
+                            </Link>
+                            <Link href="/en/login">
+                                <a>
+                                    <li className={styles.nav_item}>Genre</li>
+                                </a>
+                            </Link>
+                        </ul>
                     </div>
                     <ul className={styles.nav_list}>
-                        <Link href="/en/movie">
-                            <a>
+                        <div className={styles.search_container}>
+                            <form onSubmit={handleSubmit}>
+                                <input
+                                    ref={inputRef}
+                                    autoComplete="false"
+                                    autoCorrect="false"
+                                    spellCheck={false}
+                                    type="text"
+                                    name="q"
+                                    id="query"
+                                    value={query}
+                                    onFocus={() => setsearchContainerVisible(true)}
+                                    onKeyUp={getResults}
+                                    onKeyPress={handleKeyPress}
+                                    onChange={(e) => {
+                                            setquery(e.target.value)
+                                    }
+                                    }
+                                    placeholder="What are you looking for?"
+                                />
+                            </form>
+
+                            {suggestionLoading ? (
                                 <li
-                                    className={styles.nav_item + " " + styles.dropdown}
-                                    onMouseEnter={() => setmoviesDropdown(true)}
-                                    onMouseLeave={() => setmoviesDropdown(false)}
+                                    className={
+                                        styles.nav_item + " " + styles.s + " " + styles.load
+                                    }
                                 >
-                                    Movies
-                                    {/* <span>
-                                            <i
-                                                className={
-                                                    moviesDropdown
-                                                        ? "bi bi-chevron-up"
-                                                        : "bi bi-chevron-down"
-                                                }
-                                            ></i>
-                                        </span> */}
+                                    <i className="bi bi-arrow-repeat"></i>
                                 </li>
-                            </a>
-                        </Link>
-                        <Link href="/en/tv">
-                            <a>
+                            ) : (
                                 <li
-                                    className={styles.nav_item + " " + styles.dropdown}
-                                    onMouseEnter={() => setmoviesDropdown(true)}
-                                    onMouseLeave={() => setmoviesDropdown(false)}
+                                    className={
+                                        query && query.length
+                                            ? styles.nav_item +
+                                            " " +
+                                            styles.clear +
+                                            " " +
+                                            styles.s +
+                                            " " +
+                                            styles.active
+                                            : styles.nav_item + " " + styles.clear + " " + styles.s
+                                    }
+                                    onClick={clearSearch}
                                 >
-                                    Tv Shows
-                                    {/* <span>
-                                            <i
-                                                className={
-                                                    moviesDropdown
-                                                        ? "bi bi-chevron-up"
-                                                        : "bi bi-chevron-down"
-                                                }
-                                            ></i>
-                                        </span> */}
+                                    <i className="bi bi-x-lg"></i>
                                 </li>
-                            </a>
-                        </Link>
+                            )}
+
+                            <li
+                                className={
+                                    styles.nav_item + " " + styles.search + " " + styles.s
+                                }
+                                onClick={handleSearchToggle}
+                            >
+                                <i className="bi bi-search"></i>
+                            </li>
+
+                            <ul
+                                className={
+                                    searchContainerVisible
+                                        ? styles.s_results + " " + styles.active
+                                        : styles.s_results
+                                }
+                            >
+                                {results?.results
+                                    ?.slice(0, 4)
+                                    ?.map((item, i) =>
+                                        item.media_type === "movie" ? (
+                                            <Movie
+                                                index={i}
+                                                onhover={onhover}
+                                                key={item.id}
+                                                active={currentSuggestion === i ? true : false}
+                                                item={item}
+                                            />
+                                        ) : item.media_type === "tv" ? (
+                                            <Tv
+                                                key={item.id}
+                                                index={i}
+                                                onhover={onhover}
+                                                active={currentSuggestion === i ? true : false}
+                                                item={item}
+                                            />
+                                        ) : null
+                                    )}
+                                {results?.results?.length > 4 ? (
+                                    <li className={styles.more_results}>
+                                        <span>See more results</span>
+                                        <Link href={"/en/search?q=" + query + "&page=1"}>
+                                            <a>
+                                                <span>
+                                                    <i className="bi bi-arrow-right"></i>
+                                                </span>
+                                            </a>
+                                        </Link>
+                                    </li>
+                                ) : null}
+                            </ul>
+                        </div>
+                        {/* <Link href="/en/login">
+                        <a>
+                            <li className={styles.nav_item}>Login</li>
+                        </a>
+                    </Link>
+                    <Link href="/en/login">
+                        <a>
+                            <li className={styles.nav_item}>Sign Up</li>
+                        </a>
+                    </Link> */}
                     </ul>
-                </div>
-            </div>
+                </nav>
+            ) : null}
+            {isMobile ? (
+                <>
+                    <nav className={styles.navbar_sm} ref={navbarSmRef}>
+                        <div className={styles.nav_row_1}>
+                            <div
+                                className={styles.nav_ham_container}
+                                onClick={() => setnavSide(true)}
+                            >
+                                <div className={styles.ham_line}></div>
+                                <div className={styles.ham_line}></div>
+                                <div className={styles.ham_line}></div>
+                            </div>
+                            <div className={styles.nav_header}>
+                                <Link href="/en" passHref>
+                                    <a>
+                                        <div className={styles.nav_header_image}>
+                                            <img
+                                                src="/assets/apple-touch-icon.png"
+                                                alt=""
+                                                srcSet=""
+                                            />
+                                        </div>
+                                    </a>
+                                </Link>
+                            </div>
+                            <div
+                                className={styles.nav_search}
+                                id="search"
+                                onClick={() => {
+                                    setsearchBarActive((prev) => !prev);
+                                }}
+                            >
+                                <i id="search" className="bi bi-search"></i>
+                            </div>
+                        </div>
+                        <div
+                            className={
+                                searchBarActive
+                                    ? styles.nav_row_2 + " " + styles.active
+                                    : styles.nav_row_2
+                            }
+                        >
+                            <form onSubmit={handleSubmit}>
+                                <input
+                                    ref={inputSmRef}
+                                    autoComplete="false"
+                                    autoCorrect="false"
+                                    spellCheck={false}
+                                    type="text"
+                                    name="q"
+                                    id="query"
+                                    value={query}
+                                    onFocus={() => setsearchContainerVisible(true)}
+                                    onKeyUp={getResults}
+                                    onKeyPress={handleKeyPress}
+                                    onChange={(e) => setquery(e.target.value)}
+                                    placeholder="What are you looking for?"
+                                />
+                            </form>
+                            <ul
+                                className={
+                                    searchContainerVisible
+                                        ? styles.search_results + " " + styles.active
+                                        : styles.search_results
+                                }
+                            >
+                                {results?.results
+                                    ?.slice(0, 4)
+                                    ?.map((item, i) =>
+                                        item.media_type === "movie" ? (
+                                            <Movie
+                                                index={i}
+                                                onhover={onhover}
+                                                key={item.id}
+                                                active={currentSuggestion === i ? true : false}
+                                                item={item}
+                                            />
+                                        ) : item.media_type === "tv" ? (
+                                            <Tv
+                                                key={item.id}
+                                                index={i}
+                                                onhover={onhover}
+                                                active={currentSuggestion === i ? true : false}
+                                                item={item}
+                                            />
+                                        ) : null
+                                    )}
+                                {results?.results?.length > 4 ? (
+                                    <li className={styles.more_results}>
+                                        <span>See more results</span>
+                                        <Link href={"/en/search?q=" + query + "&page=1"}>
+                                            <a>
+                                                <span>
+                                                    <i className="bi bi-arrow-right"></i>
+                                                </span>
+                                            </a>
+                                        </Link>
+                                    </li>
+                                ) : null}
+                            </ul>
+                        </div>
+                        <div
+                            className={
+                                navSide
+                                    ? styles.nav_sidebar + " " + styles.active
+                                    : styles.nav_sidebar
+                            }
+                        >
+                            <div className={styles.nav_side_container}>
+                                <div
+                                    className={styles.nav_close}
+                                    onClick={() => setnavSide(false)}
+                                >
+                                    <i className="bi bi-x"></i>
+                                </div>
+                                <ul className={styles.nav_list}>
+                                    <Link href="/en/movie">
+                                        <a>
+                                            <li
+                                                className={styles.nav_item + " " + styles.dropdown}
+                                                onMouseEnter={() => setmoviesDropdown(true)}
+                                                onMouseLeave={() => setmoviesDropdown(false)}
+                                            >
+                                                Movies
+                                                {/* <span>
+                                            <i
+                                                className={
+                                                    moviesDropdown
+                                                        ? "bi bi-chevron-up"
+                                                        : "bi bi-chevron-down"
+                                                }
+                                            ></i>
+                                        </span> */}
+                                            </li>
+                                        </a>
+                                    </Link>
+                                    <Link href="/en/tv">
+                                        <a>
+                                            <li
+                                                className={styles.nav_item + " " + styles.dropdown}
+                                                onMouseEnter={() => setmoviesDropdown(true)}
+                                                onMouseLeave={() => setmoviesDropdown(false)}
+                                            >
+                                                Tv Shows
+                                                {/* <span>
+                                            <i
+                                                className={
+                                                    moviesDropdown
+                                                        ? "bi bi-chevron-up"
+                                                        : "bi bi-chevron-down"
+                                                }
+                                            ></i>
+                                        </span> */}
+                                            </li>
+                                        </a>
+                                    </Link>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+
+
+                </>
+            ) : null}
         </>
     );
 }
@@ -497,7 +569,7 @@ function Movie({ item, active, index, onhover }) {
                             <img
                                 src={"https://image.tmdb.org/t/p/original" + item.poster_path}
                                 alt={item.title}
-                                srcset=""
+                                srcSet=""
                             />
                         ) : (
                             <img
@@ -551,7 +623,7 @@ function Tv({ item, active, index, onhover }) {
                             <img
                                 src={"https://image.tmdb.org/t/p/original" + item.poster_path}
                                 alt={item.name}
-                                srcset=""
+                                srcSet=""
                             />
                         ) : (
                             <img

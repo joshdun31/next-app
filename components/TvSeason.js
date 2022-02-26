@@ -13,7 +13,7 @@ function TvSeason({ data,seasondata,base_url}) {
         let title = seasondata.name ? seasondata.name : "";
         let year = seasondata.first_air_date ? " (" + getYear(seasondata.first_air_date) + ")" : "";
         let season=snumber?" Season "+snumber:""
-        return "Watch "+title + season+" - ZFlix";
+        return "Watch "+title + season+" on ZFlix";
     }
     console.log(data);
     return (

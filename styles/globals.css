@@ -48,3 +48,7 @@ a {
 *::-webkit-scrollbar-thumb:hover {
   background: rgba(120, 120, 120,0.6);
 }
+
+.react-horizontal-scrolling-menu--scroll-container{
+  overflow: hidden !important;
+}
