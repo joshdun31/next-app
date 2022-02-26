@@ -5,7 +5,7 @@
     font-size: 0.78rem;
     font-weight: 600;
     font-family: 'Nunito', sans-serif;
-    margin: 10px 0px 0px;
+    margin: 4px 0px 0px;
     display: flex;
     flex-wrap: wrap;
 
@@ -20,9 +20,13 @@
 }
 
 .dot {
-    font-size: 1.4rem;
     font-weight: bolder;
-    margin: 0px 8px;
+    margin: 0px 10px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: $text-lighter-color;
+    display: inline-block;
 }
 .w_content {
     width: 100vw;
@@ -529,7 +533,7 @@
                             width: 160px;
                             align-self: center;
 
-                            img {
+                            .content_poster_image {
                                 width: 160px;
                                 height: 220px;
                             }

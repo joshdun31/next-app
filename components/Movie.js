@@ -46,6 +46,17 @@ function Movie({ data, base_url }) {
             console.log("Cannot find torrents");
         }
     };
+
+    const config = {
+        type: "spring",
+        damping: 20,
+        stiffness: 100,
+    };
+
+    //   transition={config}
+    //   initial={{ scale: 1, opacity: 0,y:50 }}
+    //   animate={{ scale: 1, opacity: 1 ,y:0}}
+    //   exit={{ x: 0, opacity: 0 }}
     return (
         <>
             <Head>
@@ -111,11 +122,11 @@ function Movie({ data, base_url }) {
                                         {getMonth(data.release_date)}{" "}
                                         {data?.release_date?.slice(8, 10)},{" "}
                                         {getYear(data.release_date)}
-                                        <span className={styles.dot}>.</span>
+                                        <span className={styles.dot}></span>
                                         <span>
                                             <i className="bi bi-star-fill"></i> {data.vote_average}
                                         </span>
-                                        <span className={styles.dot}>.</span>
+                                        <span className={styles.dot}></span>
                                         <span className={styles.runtime}>
                                             <i className="bi bi-clock"></i>
                                             {(data.runtime > 60

@@ -81,11 +81,11 @@ function Tv({ data, base_url }) {
                                     <p className={styles2.content_details}>
                                         <i className="bi bi-calendar-day"></i>{" "}
                                         {getYear(data.first_air_date)}
-                                        <span className={styles2.dot} >.</span>
+                                        <span className={styles2.dot} ></span>
                                         <span>
                                             <i className="bi bi-star-fill"></i> {data.vote_average}
                                         </span>
-                                        <span className={styles2.dot}>.</span>
+                                        <span className={styles2.dot}></span>
                                         <span className={styles2.runtime}>
                                             <i className="bi bi-clock"></i> {data.runtime} mins
                                         </span>

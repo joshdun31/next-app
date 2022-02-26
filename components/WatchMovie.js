@@ -82,9 +82,9 @@ function WatchMovie({ data, base_url }) {
                             {getMonth(data.release_date)} {data?.release_date?.slice(8, 10)},{" "}
                             {getYear(data.release_date)}
                         </span>
-                        <span className={styles2.dot}>.</span>
+                        <span className={styles2.dot}></span>
                         <i className="bi bi-star-fill"></i> {data.vote_average}/10
-                        <span className={styles2.dot}>.</span>
+                        <span className={styles2.dot}></span>
                         <i className="bi bi-clock"></i>{" "}
                         {(data.runtime > 60 ? getHour(data.runtime) + "hr " : "") +
                             (getMinute(data.runtime)

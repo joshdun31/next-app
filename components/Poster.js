@@ -49,7 +49,8 @@ function Poster({ item, type }) {
   return (
     <>
       <Link href={getHref()} as={getLink()} passHref>
-        <motion.a 
+        <a>
+        <motion.div 
           className={styles.poster_link} 
           whileTap={{ scale: 0.9 }}
         > 
@@ -63,7 +64,8 @@ function Poster({ item, type }) {
               alt={item.title}
             />
           </div>
-        </motion.a>
+        </motion.div>
+        </a>
       </Link>
     </>
   );

@@ -16,7 +16,7 @@ function TvEpisode({ data, seasondata, base_url }) {
         //let year = seasondata.first_air_date ? " (" + getYear(seasondata.first_air_date) + ")" : "";
         let season = snumber ? " Season " + snumber : "";
         let episode = enumber ? " Episode " + enumber : "";
-        return "Watch " + title + season + episode + " - ZFlix";
+        return "Watch " + title + season + episode + " on ZFlix";
     };
     return (
         <>
@@ -67,7 +67,7 @@ function TvEpisode({ data, seasondata, base_url }) {
                             </a>
                         </Link>
                         <span> E{data.episode_number}</span>
-                        <span className={styles2.dot}>.</span>
+                        <span className={styles2.dot}></span>
                         <span>{data.name}</span>
                     </h4>
                     <div className={styles.w_info}>
@@ -76,9 +76,9 @@ function TvEpisode({ data, seasondata, base_url }) {
                             {getMonth(data.air_date)} {data?.air_date?.slice(8, 10)},{" "}
                             {getYear(data.air_date)}
                         </span>
-                        <span className={styles2.dot}>.</span>
+                        <span className={styles2.dot}></span>
                         <i className="bi bi-star-fill"></i> {data.vote_average}/10
-                        <span className={styles2.dot}>.</span>
+                        <span className={styles2.dot}></span>
                         <i className="bi bi-clock"></i>{" "}
                         {(data.episode_runtime > 60 ? getHour(data.episode_runtime) + "hr " : "") +
                             (getMinute(data.episode_runtime)

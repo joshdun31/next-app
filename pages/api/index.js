@@ -2,7 +2,7 @@ export default async (req, res) => {
     const { method } = req;
   
     // This will allow OPTIONS request
-    if (method === "OPTIONS") {
+    if (method === "GET") {
       return res.status(200).send("ok");
     }
   };
