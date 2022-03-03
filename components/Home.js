@@ -3,8 +3,8 @@ import { useRef, useState } from "react";
 import styles from "../scss/components/home.module.scss";
 import Head from "next/head";
 import Poster from "./Poster";
-import ScrollableContainer from "./molecules/ScrollableContainer.";
-import { isBrowser, isMobile } from 'react-device-detect';
+import { isBrowser, isMobile } from "react-device-detect";
+import ScrollContainer from "react-indiana-drag-scroll";
 
 function Home({ movieData, tvData, base_url }) {
     const router = useRouter();
@@ -47,22 +47,18 @@ function Home({ movieData, tvData, base_url }) {
                             community
                         </p>
                     </div>
-                    {isBrowser?
-                        <div className={styles.whole_poster}>
-                            <ScrollableContainer data={movieData} type="movie" />
-                        </div>
-                     :null
-                    }
-                    {isMobile?
-                        <div className={styles.whole_poster}>
-                            <div className={styles.poster_container_m+" "+styles.poster_container}>
+                    <div className={styles.whole_poster}>
+                        <ScrollContainer className="scroll-container" horizontal>
+                            <div
+                                className={styles.poster_container
+                                }
+                            >
                                 {movieData.map((item) => (
                                     <Poster type="movie" key={item.id} item={item} />
                                 ))}
                             </div>
-                        </div>
-                        :null
-                    }
+                        </ScrollContainer>
+                    </div>
                 </section>
 
                 <section className={styles.section_main}>
@@ -70,22 +66,18 @@ function Home({ movieData, tvData, base_url }) {
                         <h2 className={styles.heading}>Trending TV Shows</h2>
                         <p>Check out what everyone is talking about</p>
                     </div>
-                    {isBrowser?
-                        <div className={styles.whole_poster}>
-                            <ScrollableContainer data={tvData} type="tv" />
-                        </div>
-                        :null
-                    }
-                    {isMobile?
-                        <div className={styles.whole_poster}>
-                            <div className={styles.poster_container_m+" "+styles.poster_container}>
+                    <div className={styles.whole_poster}>
+                        <ScrollContainer className="scroll-container" horizontal>
+                            <div
+                                className={ styles.poster_container
+                                }
+                            >
                                 {tvData.map((item) => (
                                     <Poster type="tv" key={item.id} item={item} />
                                 ))}
                             </div>
-                        </div>
-                        :null
-                    }
+                        </ScrollContainer>
+                    </div>
                 </section>
             </div>
         </>
