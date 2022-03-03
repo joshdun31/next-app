@@ -147,13 +147,23 @@
                 }
             }
         }
+        .whole_poster {
+            margin: 18px auto ;
+            .poster_container_m {
+                overflow-x: auto !important;
+                .poster {
+                    width: $p-sm-w;
+                    height: $p-sm-h;
+                }
+                &::-webkit-scrollbar {
+                    width: 0px;
+                    height: 0px;
+                  }
+            }
+        }
     }
 }
 
-.arrow_image{
-    width: 20px;
-    height: 20px;
-}
 
 @media screen and (max-width:600px) {
     .main_content {
@@ -173,26 +183,12 @@
                 }
 
             }
-
             .whole_poster {
                 margin: 18px auto ;
-                .poster_container {
-                    overflow-x: auto;
-                    .poster {
-                        width: $p-sm-w;
-                        height: $p-sm-h;
-
-                        
-                    }
-                    &::-webkit-scrollbar {
-                        width: 0px;
-                        height: 0px;
-                      }
+                .poster_container_m {
+                    overflow-x: auto !important;
                 }
-                .arrow{
-                    display: none;
-                }
-            }
+            }            
         }
     }
 }

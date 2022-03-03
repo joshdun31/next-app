@@ -165,6 +165,14 @@ function Navbar() {
     function onhover(i) {
         // setcurrentSuggestion(i)
     }
+    function hamOpen() {
+        document.body.classList.add("no_scroll")
+        setnavSide(true)
+    }
+    function hamClose() {
+        document.body.classList.remove("no_scroll")
+        setnavSide(false)
+    }
     return (
         <>
             {isDesktopOrLaptop ? (
@@ -383,7 +391,7 @@ function Navbar() {
                         <div className={styles.nav_row_1}>
                             <div
                                 className={styles.nav_ham_container}
-                                onClick={() => setnavSide(true)}
+                                onClick={hamOpen}
                             >
                                 <div className={styles.ham_line}></div>
                                 <div className={styles.ham_line}></div>
@@ -488,7 +496,7 @@ function Navbar() {
                             <div className={styles.nav_side_container}>
                                 <div
                                     className={styles.nav_close}
-                                    onClick={() => setnavSide(false)}
+                                    onClick={hamClose}
                                 >
                                     <i className="bi bi-x"></i>
                                 </div>

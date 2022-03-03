@@ -8,13 +8,19 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-    overflow-x: hidden;
     width: 100vw;
+    overflow-x: hidden !important;
     background: #0d0d0d;
     scroll-behavior: smooth;
+    height: 100vh;
 }
 html:focus-within{
   scroll-behavior: smooth;
+}
+body.no_scroll{
+  /* height: 100vh; */
+  overflow: hidden !important;
+  /* position: sticky; */
 }
 a {
   color: inherit;
@@ -52,3 +58,7 @@ a {
 .react-horizontal-scrolling-menu--scroll-container{
   overflow: hidden !important;
 }
+.react-horizontal-scrolling-menu--wrapper{
+  overflow: hidden !important;
+
+} 

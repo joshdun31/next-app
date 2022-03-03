@@ -4,43 +4,12 @@ import styles from "../scss/components/home.module.scss";
 import Head from "next/head";
 import Poster from "./Poster";
 import ScrollableContainer from "./molecules/ScrollableContainer.";
+import { isBrowser, isMobile } from 'react-device-detect';
 
 function Home({ movieData, tvData, base_url }) {
     const router = useRouter();
     let overview =
         "ZFlix is the largest free streaming platform for movies and tv shows. Collaborative media and info service featuring high quality content for a huge selection of titles and new releases! Available in all countries.";
-
-    const [movieScrollLeft, setmovieScrollLeft] = useState(0);
-    const movieSlide = useRef(null);
-    const tvSlide = useRef(null);
-    const movieSlideContainer = useRef(null);
-    function handleMovieSlideRight() {
-        let v = movieSlide.current.scrollLeft;
-        if (
-            Math.ceil(v + movieSlide.current.offsetWidth) <
-            movieSlide.current.scrollWidth
-        ) {
-            movieSlide.current.scrollLeft =
-                movieSlide.current.scrollLeft + movieSlideContainer.current.offsetWidth;
-            setmovieScrollLeft(v + movieSlideContainer.current.offsetWidth);
-        }
-    }
-    function handleMovieSlideLeft() {
-        let v = movieSlide.current.scrollLeft;
-        if (v > 0) {
-            movieSlide.current.scrollLeft =
-                movieSlide.current.scrollLeft - movieSlideContainer.current.offsetWidth;
-            setmovieScrollLeft(v - movieSlideContainer.current.offsetWidth);
-        }
-    }
-    function handleTvSlideRight() {
-        tvSlide.current.scrollLeft =
-            tvSlide.current.scrollLeft + movieSlideContainer.current.offsetWidth;
-    }
-    function handleTvSlideLeft() {
-        tvSlide.current.scrollLeft =
-            tvSlide.current.scrollLeft - movieSlideContainer.current.offsetWidth;
-    }
 
     return (
         <>
@@ -78,40 +47,22 @@ function Home({ movieData, tvData, base_url }) {
                             community
                         </p>
                     </div>
-                    <div className={styles.whole_poster} ref={movieSlideContainer}>
-                        {movieScrollLeft == 0 ? null : (
-                            <div
-                                className={styles.left_arrow + " " + styles.arrow}
-                                onClick={handleMovieSlideLeft}
-                            >
-                                <img
-                                    src="./assets/left-arrow.png"
-                                    className={styles.arrow_image}
-                                    alt=""
-                                    srcSet=""
-                                />
+                    {isBrowser?
+                        <div className={styles.whole_poster}>
+                            <ScrollableContainer data={movieData} type="movie" />
+                        </div>
+                     :null
+                    }
+                    {isMobile?
+                        <div className={styles.whole_poster}>
+                            <div className={styles.poster_container_m+" "+styles.poster_container}>
+                                {movieData.map((item) => (
+                                    <Poster type="movie" key={item.id} item={item} />
+                                ))}
                             </div>
-                        )}
-                        <div className={styles.poster_container} ref={movieSlide}>
-                            {movieData.map((item) => (
-                                <Poster type="movie" key={item.id} item={item} />
-                            ))}
                         </div>
-                        <div
-                            className={styles.right_arrow + " " + styles.arrow}
-                            onClick={handleMovieSlideRight}
-                        >
-                            <img
-                                src="./assets/right-arrow.png"
-                                className={styles.arrow_image}
-                                alt=""
-                                srcSet=""
-                            />
-                        </div>
-                    </div>
-                    {/* <div className={styles.whole_poster}>
-                        <ScrollableContainer data={movieData} type="movie" />
-                    </div> */}
+                        :null
+                    }
                 </section>
 
                 <section className={styles.section_main}>
@@ -119,40 +70,22 @@ function Home({ movieData, tvData, base_url }) {
                         <h2 className={styles.heading}>Trending TV Shows</h2>
                         <p>Check out what everyone is talking about</p>
                     </div>
-                    <div className={styles.whole_poster} ref={movieSlideContainer}>
-                        {movieScrollLeft == 0 ? null : (
-                            <div
-                                className={styles.left_arrow + " " + styles.arrow}
-                                onClick={handleTvSlideLeft}
-                            >
-                                <img
-                                    src="./assets/left-arrow.png"
-                                    className={styles.arrow_image}
-                                    alt=""
-                                    srcSet=""
-                                />
+                    {isBrowser?
+                        <div className={styles.whole_poster}>
+                            <ScrollableContainer data={tvData} type="tv" />
+                        </div>
+                        :null
+                    }
+                    {isMobile?
+                        <div className={styles.whole_poster}>
+                            <div className={styles.poster_container_m+" "+styles.poster_container}>
+                                {tvData.map((item) => (
+                                    <Poster type="tv" key={item.id} item={item} />
+                                ))}
                             </div>
-                        )}
-                        <div className={styles.poster_container} ref={tvSlide}>
-                            {tvData.map((item) => (
-                                <Poster type="tv" key={item.id} item={item} />
-                            ))}
                         </div>
-                        <div
-                            className={styles.right_arrow + " " + styles.arrow}
-                            onClick={handleTvSlideRight}
-                        >
-                            <img
-                                src="./assets/right-arrow.png"
-                                className={styles.arrow_image}
-                                alt=""
-                                srcSet=""
-                            />
-                        </div>
-                    </div>
-                    {/* <div className={styles.whole_poster}>
-                        <ScrollableContainer data={tvData} type="tv" />
-                    </div> */}
+                        :null
+                    }
                 </section>
             </div>
         </>

@@ -12,11 +12,17 @@ import {
 import styles from "../scss/components/movie.module.scss";
 import Link from "next/link";
 import Image from "next/image";
-import styles3 from '../scss/components/cast.module.scss';
+import styles3 from "../scss/components/cast.module.scss";
+import ScrollableContainer from "./molecules/ScrollableContainer.";
+import { isMobile, isBrowser, MobileView } from "react-device-detect";
+import ImageScrollableContainer from "./molecules/ImageScrollabeContainer";
+import styles1 from '../scss/components/poster.module.scss';
 
 function Movie({ data, base_url }) {
     const router = useRouter();
     const [torrents, settorrents] = useState({});
+    const [selectedImage, setselectedImage] = useState(0);
+    const [imagePreview, setimagePreview] = useState(false);
     useEffect(() => {
         settorrents({});
         async function getAllResults() {
@@ -24,7 +30,7 @@ function Movie({ data, base_url }) {
         }
         getAllResults()
         return () => { };
-    }, [router.query]);
+    }, [data, router.query]);
 
     const getTitle = () => {
         let title = data.title ? data.title : "";
@@ -47,6 +53,15 @@ function Movie({ data, base_url }) {
         }
     };
 
+    const imageSelect = (index) => {
+        setimagePreview(true);
+        setselectedImage(index);
+        document.body.classList.add("no_scroll");
+    };
+    const previewClose = () => {
+        document.body.classList.remove("no_scroll");
+        setimagePreview(false);
+    };
     const config = {
         type: "spring",
         damping: 20,
@@ -95,7 +110,13 @@ function Movie({ data, base_url }) {
                         <div className={styles.content_hero}>
                             <div className={styles.content_info}>
                                 <div className={styles.content_poster}>
-                                    <div className={data.poster_path?styles.content_poster_image:styles.content_poster_image+' '+styles.no_image}>
+                                    <div
+                                        className={
+                                            data.poster_path
+                                                ? styles.content_poster_image
+                                                : styles.content_poster_image + " " + styles.no_image
+                                        }
+                                    >
                                         <Image
                                             src={
                                                 data.poster_path
@@ -104,8 +125,8 @@ function Movie({ data, base_url }) {
                                             }
                                             layout="fill"
                                             placeholder="blur"
-                                            objectFit={data.poster_path?"cover":"contain"}
-                                            objectPosition={data.poster_path?"top":"center"}
+                                            objectFit={data.poster_path ? "cover" : "contain"}
+                                            objectPosition={data.poster_path ? "top" : "center"}
                                             blurDataURL={
                                                 "https://image.tmdb.org/t/p/w780" + data.poster_path
                                             }
@@ -264,29 +285,79 @@ function Movie({ data, base_url }) {
                             </div>
                         </div>
 
-                        {data?.credits?.cast.length ? (
-                            <div className={styles3.content_c} >
-                                <div className={styles.c_header} >
-                                    <div className={styles.h_line}  />
-                                    <h2>Cast</h2>
-                                    <div className={styles.h_line}  />
+                        {data.images.backdrops.length ? (
+                            <div className={styles.recommendation_container}>
+                                <div className={styles.c_header}>
+                                    <div className={styles.h_line} />
+                                    <h2>Images</h2>
+                                    <div className={styles.h_line} />
                                 </div>
-                                <div className={styles3.c_container} >
+                                {isBrowser ? (
+                                    <div className={styles.r_poster_container}>
+                                        <ImageScrollableContainer
+                                            imageSelect={imageSelect}
+                                            data={data.images.backdrops}
+                                        />
+                                    </div>
+                                ) : null}
+                                {isMobile ? (
+                                    <div className={styles.r_poster_container}>
+                                        {data.images.backdrops.map((item,index) => (
+                                            <div>
+                                                <div className={styles1.i_poster_container} onClick={()=>imageSelect(index)}>
+                                                    <Image
+                                                        src={"https://image.tmdb.org/t/p/w780" + item.file_path}
+                                                        layout="fill"
+                                                        placeholder="blur"
+                                                        objectFit="cover"
+                                                        blurDataURL={"https://image.tmdb.org/t/p/w780" + item.file_path}
+                                                        alt={item.title}
+                                                    />
+                                                </div>
+                                            </div>
+                                            // <img className={styles1.i_poster_container} src={"https://image.tmdb.org/t/p/w780" + item.file_path}  ></img>
+                                        ))}
+                                    </div>
+                                ) : null}
+                            </div>
+                        ) : null}
+                        {data?.credits?.cast.length ? (
+                            <div className={styles3.content_c}>
+                                <div className={styles.c_header}>
+                                    <div className={styles.h_line} />
+                                    <h2>Cast</h2>
+                                    <div className={styles.h_line} />
+                                </div>
+                                <div className={styles3.c_container}>
                                     {data?.credits?.cast.map((item) => (
-                                        <div className={styles3.c_parent} >
-                                            <div className={item.profile_path ?styles3.c_image:styles3.c_image+' '+styles3.no_image}>
+                                        <div className={styles3.c_parent}>
+                                            <div
+                                                className={
+                                                    item.profile_path
+                                                        ? styles3.c_image
+                                                        : styles3.c_image + " " + styles3.no_image
+                                                }
+                                            >
                                                 <Image
-                                                    src={item.profile_path ?"https://image.tmdb.org/t/p/w780" + item.profile_path:"/assets/image-not-found.png"}
+                                                    src={
+                                                        item.profile_path
+                                                            ? "https://image.tmdb.org/t/p/w780" +
+                                                            item.profile_path
+                                                            : "/assets/image-not-found.png"
+                                                    }
                                                     layout="fill"
                                                     placeholder="blur"
                                                     objectFit="cover"
-                                                    blurDataURL={"https://image.tmdb.org/t/p/w780" + item.profile_path}
+                                                    blurDataURL={
+                                                        "https://image.tmdb.org/t/p/w780" +
+                                                        item.profile_path
+                                                    }
                                                     alt={item.title}
-                                                    />
+                                                />
                                             </div>
-                                            <div className={styles3.c_detail} >
-                                                <p className={styles3.c_name} >{item.name}</p>
-                                                <p className={styles3.c_job} >
+                                            <div className={styles3.c_detail}>
+                                                <p className={styles3.c_name}>{item.name}</p>
+                                                <p className={styles3.c_job}>
                                                     <em>{item.character}</em>
                                                 </p>
                                             </div>
@@ -296,28 +367,42 @@ function Movie({ data, base_url }) {
                             </div>
                         ) : null}
                         {data?.credits?.crew.length ? (
-                            <div className={styles3.content_c} >
-                                <div className={styles.c_header} >
-                                    <div className={styles.h_line}  />
+                            <div className={styles3.content_c}>
+                                <div className={styles.c_header}>
+                                    <div className={styles.h_line} />
                                     <h2>Crew</h2>
-                                    <div className={styles.h_line}  />
+                                    <div className={styles.h_line} />
                                 </div>
-                                <div className={styles3.c_container} >
+                                <div className={styles3.c_container}>
                                     {data?.credits?.crew.map((item) => (
-                                        <div className={styles3.c_parent} >
-                                            <div className={item.profile_path ?styles3.c_image:styles3.c_image+' '+styles3.no_image}>
+                                        <div className={styles3.c_parent}>
+                                            <div
+                                                className={
+                                                    item.profile_path
+                                                        ? styles3.c_image
+                                                        : styles3.c_image + " " + styles3.no_image
+                                                }
+                                            >
                                                 <Image
-                                                    src={item.profile_path ?("https://image.tmdb.org/t/p/w780" + item.profile_path):"/assets/image-not-found.png"}
+                                                    src={
+                                                        item.profile_path
+                                                            ? "https://image.tmdb.org/t/p/w780" +
+                                                            item.profile_path
+                                                            : "/assets/image-not-found.png"
+                                                    }
                                                     layout="fill"
                                                     placeholder="blur"
                                                     objectFit="cover"
-                                                    blurDataURL={"https://image.tmdb.org/t/p/w780" + item.profile_path}
+                                                    blurDataURL={
+                                                        "https://image.tmdb.org/t/p/w780" +
+                                                        item.profile_path
+                                                    }
                                                     alt={item.title}
-                                                    />
+                                                />
                                             </div>
-                                            <div className={styles3.c_detail} >
-                                                <p className={styles3.c_name} >{item.name}</p>
-                                                <p className={styles3.c_job} >
+                                            <div className={styles3.c_detail}>
+                                                <p className={styles3.c_name}>{item.name}</p>
+                                                <p className={styles3.c_job}>
                                                     <em>{item.job}</em>
                                                 </p>
                                             </div>
@@ -333,11 +418,21 @@ function Movie({ data, base_url }) {
                                     <h2>More like this</h2>
                                     <div className={styles.h_line} />
                                 </div>
-                                <div className={styles.r_poster_container}>
-                                    {data.recommendations.results.map((item) => (
-                                        <Poster type="movie" key={item.id} item={item} />
-                                    ))}
-                                </div>
+                                {isBrowser ? (
+                                    <div className={styles.r_poster_container}>
+                                        <ScrollableContainer
+                                            type="movie"
+                                            data={data.recommendations.results}
+                                        />
+                                    </div>
+                                ) : null}
+                                {isMobile ? (
+                                    <div className={styles.r_poster_container}>
+                                        {data.recommendations.results.map((item) => (
+                                            <Poster type={"movie"} item={item} />
+                                        ))}
+                                    </div>
+                                ) : null}
                             </div>
                         ) : null}
                         {data.similar.results.length ? (
@@ -347,16 +442,51 @@ function Movie({ data, base_url }) {
                                     <h2>Recommendations</h2>
                                     <div className={styles.h_line} />
                                 </div>
-                                <div className={styles.r_poster_container}>
-                                    {data.similar.results.map((item) => (
-                                        <Poster type="movie" key={item.id} item={item} />
-                                    ))}
-                                </div>
+                                {isBrowser ? (
+                                    <div className={styles.r_poster_container}>
+                                        <ScrollableContainer
+                                            type="movie"
+                                            data={data.similar.results}
+                                        />
+                                    </div>
+                                ) : null}
+                                {isMobile ? (
+                                    <div className={styles.r_poster_container}>
+                                        {data.similar.results.map((item) => (
+                                            <Poster type={"movie"} item={item} />
+                                        ))}
+                                    </div>
+                                ) : null}
                             </div>
                         ) : null}
                     </div>
                 </div>
             </div>
+            {imagePreview ? (
+                <div className={styles.i_preview_container}>
+                    <div className={styles.i_close} onClick={previewClose}>
+                        <i className="bi bi-x"></i>
+                    </div>
+                    <div className={styles.i_poster_container}>
+                        <div className={styles.i_poster}>
+                            <Image
+                                src={
+                                    "https://image.tmdb.org/t/p/original" +
+                                    data.images.backdrops[selectedImage].file_path
+                                }
+                                layout="fill"
+                                placeholder="blur"
+                                objectFit="contain"
+                                blurDataURL={
+                                    "https://image.tmdb.org/t/p/original" +
+                                    data.images.backdrops[selectedImage].file_path
+                                }
+                                alt={data.images.backdrops[selectedImage].title}
+                            />
+                        </div>
+                    </div>
+                </div>
+            ) : null}
         </>
     );
 }
