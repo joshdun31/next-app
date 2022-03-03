@@ -13,24 +13,30 @@ import styles from "../scss/components/movie.module.scss";
 import Link from "next/link";
 import Image from "next/image";
 import styles3 from "../scss/components/cast.module.scss";
-import ScrollableContainer from "./molecules/ScrollableContainer.";
 import { isMobile, isBrowser, MobileView } from "react-device-detect";
-import ImageScrollableContainer from "./molecules/ImageScrollabeContainer";
 import styles1 from '../scss/components/poster.module.scss';
+import ScrollContainer from 'react-indiana-drag-scroll'
 
 function Movie({ data, base_url }) {
     const router = useRouter();
     const [torrents, settorrents] = useState({});
     const [selectedImage, setselectedImage] = useState(0);
     const [imagePreview, setimagePreview] = useState(false);
+    const [loading, setloading] = useState(false)
+    
     useEffect(() => {
+        console.log("in");
+        setloading(false)
         settorrents({});
         async function getAllResults() {
             await getTorrents();
         }
         getAllResults();
-        return () => { };
-    }, [data, router.query]);
+        return () => {
+            console.log("out");
+            setloading(true)
+         };
+    }, [ router.query,router.asPath]);
 
     const getTitle = () => {
         let title = data.title ? data.title : "";
@@ -72,6 +78,10 @@ function Movie({ data, base_url }) {
     //   initial={{ scale: 1, opacity: 0,y:50 }}
     //   animate={{ scale: 1, opacity: 1 ,y:0}}
     //   exit={{ x: 0, opacity: 0 }}
+    if (loading) {
+        return <div></div>
+    }
+
     return (
         <>
             <Head>
@@ -292,15 +302,7 @@ function Movie({ data, base_url }) {
                                     <h2>Images</h2>
                                     <div className={styles.h_line} />
                                 </div>
-                                {isBrowser ? (
-                                    <div className={styles.r_poster_container}>
-                                        <ImageScrollableContainer
-                                            imageSelect={imageSelect}
-                                            data={data.images.backdrops}
-                                        />
-                                    </div>
-                                ) : null}
-                                {isMobile ? (
+                                <ScrollContainer className="scroll-container" horizontal>
                                     <div className={styles.r_poster_container}>
                                         {data.images.backdrops.map((item,index) => (
                                             <div>
@@ -318,7 +320,7 @@ function Movie({ data, base_url }) {
                                             // <img className={styles1.i_poster_container} src={"https://image.tmdb.org/t/p/w780" + item.file_path}  ></img>
                                         ))}
                                     </div>
-                                ) : null}
+                                </ScrollContainer>
                             </div>
                         ) : null}
                         {data?.credits?.cast.length ? (
@@ -418,21 +420,13 @@ function Movie({ data, base_url }) {
                                     <h2>More like this</h2>
                                     <div className={styles.h_line} />
                                 </div>
-                                {isBrowser ? (
-                                    <div className={styles.r_poster_container}>
-                                        <ScrollableContainer
-                                            type="movie"
-                                            data={data.recommendations.results}
-                                        />
-                                    </div>
-                                ) : null}
-                                {isMobile ? (
+                                <ScrollContainer className="scroll-container" horizontal>
                                     <div className={styles.r_poster_container}>
                                         {data.recommendations.results.map((item) => (
                                             <Poster type={"movie"} item={item} />
                                         ))}
                                     </div>
-                                ) : null}
+                                </ScrollContainer>
                             </div>
                         ) : null}
                         {data.similar.results.length ? (
@@ -442,22 +436,15 @@ function Movie({ data, base_url }) {
                                     <h2>Recommendations</h2>
                                     <div className={styles.h_line} />
                                 </div>
-                                {isBrowser ? (
-                                    <div className={styles.r_poster_container}>
-                                        <ScrollableContainer
-                                            type="movie"
-                                            data={data.similar.results}
-                                        />
-                                    </div>
-                                ) : null}
-                                {isMobile ? (
+                                <ScrollContainer className="scroll-container" horizontal>
                                     <div className={styles.r_poster_container}>
                                         {data.similar.results.map((item) => (
                                             <Poster type={"movie"} item={item} />
                                         ))}
                                     </div>
-                                ) : null}
+                                </ScrollContainer>
                             </div>
+                            
                         ) : null}
                     </div>
                 </div>
