@@ -31,12 +31,10 @@ function Movie({ data, base_url }) {
         async function getAllResults() {
             await getTorrents();
         }
-        getAllResults();
-        return () => {
-            console.log("out");
-            setloading(true)
-         };
-    }, [ router.query,router.asPath]);
+
+        getAllResults()
+        return () => { };
+    }, [data, router.query]);
 
     const getTitle = () => {
         let title = data.title ? data.title : "";
