@@ -293,7 +293,7 @@
 
                 .c_container {
                     display: flex;
-
+                    
                     .c_parent {
                         padding: 10px 0px;
                         display: flex;
@@ -359,20 +359,35 @@
                             }
                         }
                     }
+                    .c_parents{
+                        overflow: hidden;
+                    }
+
                 }
             }
 
             .recommendation_container{
-                max-width: 85%;
+                max-width: 86%;
                 margin: 0px auto 10px;
                 padding: 15px 0px 0px;
                 position: relative;
                 overflow-y: hidden;
                 .r_poster_container{
-                    display: flex;
                     width: 100%;
                     margin-top: 10px;
-                    overflow-x: auto;
+                    position: relative;
+                    overflow-y: hidden;
+                    display: flex;
+                    .r_poster_inner_container{
+                        display: flex;
+                        width: 100%;
+                        position: relative;
+                        overflow-x: auto;
+                        &::-webkit-scrollbar {
+                            width: 0px;
+                            height: 0px;
+                          }
+                    }
                 }
 
             }
@@ -511,6 +526,46 @@
     }
 }
 
+.i_preview_container{
+    width: 100vw;
+    height: 100vh;
+    background: #090909cc;
+    backdrop-filter: blur(5px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1001;
+    
+    .i_close{
+        position: fixed;
+        top: 0;
+        right: 0;
+        padding: 10px 16px;
+        cursor: pointer;
+        &:hover{
+            background: #101010ff;
+        }
+        i{
+            font-size: 2rem;
+            color: $text-color;
+        }
+    }
+    .i_poster_container{
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .i_poster{
+            width: 60vw;
+            height: 65vh;
+            position: relative;
+            overflow: hidden;
+            // background-color: $p-bg;
+        }
+    }
+}
 
 @media screen and (max-width:800px) {
     .w_content {
@@ -602,6 +657,12 @@
             iframe {
                 height: 30vh;
             }
+        }
+    }
+    .i_preview_container{
+        .i_poster{
+            width: 80vw !important; 
+            height: 40vh !important;
         }
     }
 }
