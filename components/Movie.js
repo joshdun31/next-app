@@ -28,12 +28,6 @@ function Movie({ data, base_url }) {
         async function getAllResults() {
             await getTorrents();
         }
-        window.addEventListener("scroll", handleScroll);
-        function handleScroll(e) {
-            if (imagePreview) {
-                e.preventDefault();
-            }
-        }
         getAllResults();
         return () => { };
     }, [data, router.query]);
