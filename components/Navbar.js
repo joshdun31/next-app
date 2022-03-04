@@ -555,7 +555,7 @@ function Navbar() {
 
 function Movie({ item, active, index, onhover }) {
     return (
-        <Link
+        <a
             href={
                 "/en/movie/" +
                 item.id +
@@ -565,7 +565,7 @@ function Movie({ item, active, index, onhover }) {
                 getYear(item.release_date)
             }
         >
-            <a>
+            {/* <a> */}
                 <li
                     onMouseEnter={() => onhover(index)}
                     className={
@@ -604,12 +604,12 @@ function Movie({ item, active, index, onhover }) {
                     </div>
                 </li>
             </a>
-        </Link>
+        // </Link>
     );
 }
 function Tv({ item, active, index, onhover }) {
     return (
-        <Link
+        <a
             href={
                 "/en/tv/" +
                 item.id +
@@ -619,7 +619,7 @@ function Tv({ item, active, index, onhover }) {
                 getYear(item.first_air_date)
             }
         >
-            <a>
+            {/* <a> */}
                 <li
                     onMouseEnter={() => onhover(index)}
                     className={
@@ -653,8 +653,8 @@ function Tv({ item, active, index, onhover }) {
                         <p className={styles.media_type}>TV</p>
                     </div>
                 </li>
-            </a>
-        </Link>
+            {/* </a> */}
+        </a>
     );
 }
 

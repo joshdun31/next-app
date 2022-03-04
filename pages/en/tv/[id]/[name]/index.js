@@ -8,7 +8,7 @@ function TvPage({data,base_url}) {
 export async function getServerSideProps(context) {
     try {
         const res = await fetch(
-            `https://api.themoviedb.org/3/tv/${context.query.id}?api_key=${process.env.TMDB_API_KEY}&language=en-US&append_to_response=videos,credits,recommendations,similar`
+            `https://api.themoviedb.org/3/tv/${context.query.id}?api_key=${process.env.TMDB_API_KEY}&append_to_response=images,videos,credits,recommendations,similar`
         );
         const data = await res.json();
         if (!data.hasOwnProperty("success")) {

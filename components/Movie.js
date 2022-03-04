@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Poster from "./Poster";
+import Poster from "./atoms/Poster";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import {
@@ -12,29 +12,27 @@ import {
 import styles from "../scss/components/movie.module.scss";
 import Link from "next/link";
 import Image from "next/image";
-import styles3 from "../scss/components/cast.module.scss";
 import { isMobile, isBrowser, MobileView } from "react-device-detect";
-import styles1 from '../scss/components/poster.module.scss';
-import ScrollContainer from 'react-indiana-drag-scroll'
+import PosterListContainer from "./molecules/PosterListContainer";
+import CastContainer from "./molecules/CastContainer";
+import ImageListContainer from "./molecules/ImageListContainer";
+import ImagePreview from "./atoms/ImagePreview";
 
 function Movie({ data, base_url }) {
     const router = useRouter();
     const [torrents, settorrents] = useState({});
     const [selectedImage, setselectedImage] = useState(0);
     const [imagePreview, setimagePreview] = useState(false);
-    const [loading, setloading] = useState(false)
-    
+    const [loading, setloading] = useState(false);
+
     useEffect(() => {
-        console.log("in");
-        setloading(false)
+        setloading(false);
         settorrents({});
         async function getAllResults() {
             await getTorrents();
         }
-
-        getAllResults()
-        return () => { };
-    }, [data, router.query]);
+        getAllResults();
+    }, [router.query, router.asPath]);
 
     const getTitle = () => {
         let title = data.title ? data.title : "";
@@ -77,7 +75,7 @@ function Movie({ data, base_url }) {
     //   animate={{ scale: 1, opacity: 1 ,y:0}}
     //   exit={{ x: 0, opacity: 0 }}
     if (loading) {
-        return <div></div>
+        return <div></div>;
     }
 
     return (
@@ -168,14 +166,16 @@ function Movie({ data, base_url }) {
                                     </p>
                                     <div className={styles.genres}>
                                         {data?.genres?.map((item, i) => (
-                                            <span className={styles.genre}>{item.name}</span>
+                                            <span key={i} className={styles.genre}>
+                                                {item.name}
+                                            </span>
                                         ))}
                                     </div>
                                     <p className={styles.content_overview}>{data.overview}</p>
                                     <div className={styles.show}>
                                         <Link href={router.asPath + "/watch"}>
                                             <div className={styles.watch_now}>
-                                                <i class="bi bi-play-fill"></i>
+                                                <i className="bi bi-play-fill"></i>
                                                 Watch Now
                                             </div>
                                         </Link>
@@ -203,7 +203,7 @@ function Movie({ data, base_url }) {
                                                 <td>
                                                     {" "}
                                                     {data.spoken_languages.map((item, i) => (
-                                                        <span>
+                                                        <span key={i}>
                                                             {item.english_name}
                                                             {i != data.spoken_languages.length - 1
                                                                 ? ","
@@ -225,7 +225,7 @@ function Movie({ data, base_url }) {
                                                 <td>
                                                     {" "}
                                                     {data.production_companies.map((item, i) => (
-                                                        <span>
+                                                        <span key={i}>
                                                             {item.name}
                                                             {i != data.production_companies.length - 1
                                                                 ? ","
@@ -280,7 +280,7 @@ function Movie({ data, base_url }) {
                                                                     hash
                                                                 }
                                                             >
-                                                                <i class="bi bi-download"></i>{" "}
+                                                                <i className="bi bi-download"></i>{" "}
                                                                 <span>{name[name.length - 1]}</span>
                                                             </a>
                                                         );
@@ -292,186 +292,15 @@ function Movie({ data, base_url }) {
                                 </div>
                             </div>
                         </div>
-
-                        {data.images.backdrops.length ? (
-                            <div className={styles.recommendation_container}>
-                                <div className={styles.c_header}>
-                                    <div className={styles.h_line} />
-                                    <h2>Images</h2>
-                                    <div className={styles.h_line} />
-                                </div>
-                                <ScrollContainer className="scroll-container" horizontal>
-                                    <div className={styles.r_poster_container}>
-                                        {data.images.backdrops.map((item,index) => (
-                                            <div>
-                                                <div className={styles1.i_poster_container} onClick={()=>imageSelect(index)}>
-                                                    <Image
-                                                        src={"https://image.tmdb.org/t/p/w780" + item.file_path}
-                                                        layout="fill"
-                                                        placeholder="blur"
-                                                        objectFit="cover"
-                                                        blurDataURL={"https://image.tmdb.org/t/p/w780" + item.file_path}
-                                                        alt={item.title}
-                                                    />
-                                                </div>
-                                            </div>
-                                            // <img className={styles1.i_poster_container} src={"https://image.tmdb.org/t/p/w780" + item.file_path}  ></img>
-                                        ))}
-                                    </div>
-                                </ScrollContainer>
-                            </div>
-                        ) : null}
-                        {data?.credits?.cast.length ? (
-                            <div className={styles3.content_c}>
-                                <div className={styles.c_header}>
-                                    <div className={styles.h_line} />
-                                    <h2>Cast</h2>
-                                    <div className={styles.h_line} />
-                                </div>
-                                <div className={styles3.c_container}>
-                                    {data?.credits?.cast.map((item) => (
-                                        <div className={styles3.c_parent}>
-                                            <div
-                                                className={
-                                                    item.profile_path
-                                                        ? styles3.c_image
-                                                        : styles3.c_image + " " + styles3.no_image
-                                                }
-                                            >
-                                                <Image
-                                                    src={
-                                                        item.profile_path
-                                                            ? "https://image.tmdb.org/t/p/w780" +
-                                                            item.profile_path
-                                                            : "/assets/image-not-found.png"
-                                                    }
-                                                    layout="fill"
-                                                    placeholder="blur"
-                                                    objectFit="cover"
-                                                    blurDataURL={
-                                                        "https://image.tmdb.org/t/p/w780" +
-                                                        item.profile_path
-                                                    }
-                                                    alt={item.title}
-                                                />
-                                            </div>
-                                            <div className={styles3.c_detail}>
-                                                <p className={styles3.c_name}>{item.name}</p>
-                                                <p className={styles3.c_job}>
-                                                    <em>{item.character}</em>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        ) : null}
-                        {data?.credits?.crew.length ? (
-                            <div className={styles3.content_c}>
-                                <div className={styles.c_header}>
-                                    <div className={styles.h_line} />
-                                    <h2>Crew</h2>
-                                    <div className={styles.h_line} />
-                                </div>
-                                <div className={styles3.c_container}>
-                                    {data?.credits?.crew.map((item) => (
-                                        <div className={styles3.c_parent}>
-                                            <div
-                                                className={
-                                                    item.profile_path
-                                                        ? styles3.c_image
-                                                        : styles3.c_image + " " + styles3.no_image
-                                                }
-                                            >
-                                                <Image
-                                                    src={
-                                                        item.profile_path
-                                                            ? "https://image.tmdb.org/t/p/w780" +
-                                                            item.profile_path
-                                                            : "/assets/image-not-found.png"
-                                                    }
-                                                    layout="fill"
-                                                    placeholder="blur"
-                                                    objectFit="cover"
-                                                    blurDataURL={
-                                                        "https://image.tmdb.org/t/p/w780" +
-                                                        item.profile_path
-                                                    }
-                                                    alt={item.title}
-                                                />
-                                            </div>
-                                            <div className={styles3.c_detail}>
-                                                <p className={styles3.c_name}>{item.name}</p>
-                                                <p className={styles3.c_job}>
-                                                    <em>{item.job}</em>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        ) : null}
-                        {data.recommendations.results.length ? (
-                            <div className={styles.recommendation_container}>
-                                <div className={styles.c_header}>
-                                    <div className={styles.h_line} />
-                                    <h2>More like this</h2>
-                                    <div className={styles.h_line} />
-                                </div>
-                                <ScrollContainer className="scroll-container" horizontal>
-                                    <div className={styles.r_poster_container}>
-                                        {data.recommendations.results.map((item) => (
-                                            <Poster type={"movie"} item={item} />
-                                        ))}
-                                    </div>
-                                </ScrollContainer>
-                            </div>
-                        ) : null}
-                        {data.similar.results.length ? (
-                            <div className={styles.recommendation_container}>
-                                <div className={styles.c_header}>
-                                    <div className={styles.h_line} />
-                                    <h2>Recommendations</h2>
-                                    <div className={styles.h_line} />
-                                </div>
-                                <ScrollContainer className="scroll-container" horizontal>
-                                    <div className={styles.r_poster_container}>
-                                        {data.similar.results.map((item) => (
-                                            <Poster type={"movie"} item={item} />
-                                        ))}
-                                    </div>
-                                </ScrollContainer>
-                            </div>
-                            
-                        ) : null}
+                        <ImageListContainer data={data.images.backdrops} imageSelect={imageSelect} title="Images" />
+                        <CastContainer type="cast" data={data.credits.cast} title="Cast" />
+                        <CastContainer type="crew" data={data.credits.crew} title="Crew" />
+                        <PosterListContainer type="movie" data={data.recommendations.results} title="More like this" />
+                        <PosterListContainer type="movie" data={data.similar.results} title="Recommendations" />
                     </div>
                 </div>
             </div>
-            {imagePreview ? (
-                <div className={styles.i_preview_container}>
-                    <div className={styles.i_close} onClick={previewClose}>
-                        <i className="bi bi-x"></i>
-                    </div>
-                    <div className={styles.i_poster_container}>
-                        <div className={styles.i_poster}>
-                            <Image
-                                src={
-                                    "https://image.tmdb.org/t/p/original" +
-                                    data.images.backdrops[selectedImage].file_path
-                                }
-                                layout="fill"
-                                placeholder="blur"
-                                objectFit="contain"
-                                blurDataURL={
-                                    "https://image.tmdb.org/t/p/original" +
-                                    data.images.backdrops[selectedImage].file_path
-                                }
-                                alt={data.images.backdrops[selectedImage].title}
-                            />
-                        </div>
-                    </div>
-                </div>
-            ) : null}
+            <ImagePreview selectedImage={selectedImage} data={data.images.backdrops} previewClose={previewClose} imagePreview={imagePreview} />
         </>
     );
 }
