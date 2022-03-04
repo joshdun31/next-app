@@ -1,14 +1,20 @@
+import { useState, useEffect } from "react";
 import Head from "next/head";
 import { getYear } from '../utils/functions';
 import Link from 'next/link';
 import { useRouter } from "next/router";
 import styles from '../scss/components/tv.module.scss';
 import styles2 from '../scss/components/movie.module.scss';
-import styles3 from '../scss/components/cast.module.scss';
 import Image from "next/image";
+import CastContainer from "./molecules/CastContainer";
+import PosterListContainer from "./molecules/PosterListContainer";
+import ImageListContainer from "./molecules/ImageListContainer";
+import ImagePreview from "./atoms/ImagePreview";
 
 function Tv({ data, base_url }) {
     const router = useRouter();
+    const [imagePreview, setimagePreview] = useState(false);
+    const [selectedImage, setselectedImage] = useState(0);
 
     let {id,name}=router.query
 
@@ -18,6 +24,15 @@ function Tv({ data, base_url }) {
         return title + year + " - ZFlix";
     }
     
+    const imageSelect = (index) => {
+        setimagePreview(true);
+        setselectedImage(index);
+        document.body.classList.add("no_scroll");
+    };
+    const previewClose = () => {
+        document.body.classList.remove("no_scroll");
+        setimagePreview(false);
+    };
     return (
         <>
             <Head>
@@ -158,71 +173,16 @@ function Tv({ data, base_url }) {
                                 </div>
                             </div>
                         </div>
-                        {data?.credits?.cast.length ? (
-                            <div className={styles3.content_c} >
-                                <div className={styles2.c_header} >
-                                    <div className={styles2.h_line}  />
-                                    <h2>Cast</h2>
-                                    <div className={styles2.h_line}  />
-                                </div>
-                                <div className={styles3.c_container} >
-                                    {data?.credits?.cast.map((item) => (
-                                        <div className={styles3.c_parent} >
-                                            <div className={item.profile_path ?styles3.c_image:styles3.c_image+' '+styles3.no_image}>
-                                                <Image
-                                                    src={item.profile_path ?"https://image.tmdb.org/t/p/w780" + item.profile_path:"/assets/image-not-found.png"}
-                                                    layout="fill"
-                                                    placeholder="blur"
-                                                    objectFit="cover"
-                                                    blurDataURL={"https://image.tmdb.org/t/p/w780" + item.profile_path}
-                                                    alt={item.title}
-                                                    />
-                                            </div>
-                                            <div className={styles3.c_detail} >
-                                                <p className={styles3.c_name} >{item.name}</p>
-                                                <p className={styles3.c_job} >
-                                                    <em>{item.character}</em>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        ) : null}
-                        {data?.credits?.crew.length ? (
-                            <div className={styles3.content_c} >
-                                <div className={styles3.c_header} >
-                                    <div className={styles2.h_line}  />
-                                    <h2>Crew</h2>
-                                    <div className={styles2.h_line}  />
-                                </div>
-                                <div className={styles3.c_container} >
-                                    {data?.credits?.crew.map((item) => (
-                                        <div className={styles3.c_parent} >
-                                            <div className={item.profile_path ?styles3.c_image:styles3.c_image+' '+styles3.no_image}>
-                                                <Image
-                                                    src={item.profile_path ?("https://image.tmdb.org/t/p/w780" + item.profile_path):"/assets/image-not-found.png"}
-                                                    layout="fill"
-                                                    placeholder="blur"
-                                                    objectFit="cover"
-                                                    blurDataURL={"https://image.tmdb.org/t/p/w780" + item.profile_path}
-                                                    alt={item.title}
-                                                    />
-                                            </div>
-                                            <div className={styles3.c_detail} >
-                                                <p className={styles3.c_name} >{item.name}</p>
-                                                <p className={styles3.c_job} >
-                                                    <em>{item.job}</em>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        ) : null}
+                        <ImageListContainer data={data.images.backdrops} imageSelect={imageSelect} title="Images" />
+                        <CastContainer type="cast" data={data.credits.cast} title="Cast" />
+                        <CastContainer type="crew" data={data.credits.crew} title="Crew" />
+                        <PosterListContainer type="tv" data={data.recommendations.results} title="More like this" />
+                        <PosterListContainer type="tv" data={data.similar.results} title="Recommendations" />
+
                     </div>
                 </div>
             </div>
+            <ImagePreview selectedImage={selectedImage} data={data.images.backdrops} previewClose={previewClose} imagePreview={imagePreview} />
         </>
     );
 }

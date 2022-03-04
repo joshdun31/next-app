@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import styles from '../scss/components/poster.module.scss';
+import styles from '../../scss/components/poster.module.scss';
 import { motion } from "framer-motion";
 
 function Poster({ item, type }) {

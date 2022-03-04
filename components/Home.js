@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import styles from "../scss/components/home.module.scss";
 import Head from "next/head";
-import Poster from "./Poster";
+import Poster from "./atoms/Poster";
 import { isBrowser, isMobile } from "react-device-detect";
 import ScrollContainer from "react-indiana-drag-scroll";
 
