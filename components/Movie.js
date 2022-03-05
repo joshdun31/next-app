@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Poster from "./atoms/Poster";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import {
@@ -295,7 +294,7 @@ function Movie({ data, base_url }) {
                         <ImageListContainer data={data.images.backdrops} imageSelect={imageSelect} title="Images" />
                         <CastContainer type="cast" data={data.credits.cast} title="Cast" />
                         <CastContainer type="crew" data={data.credits.crew} title="Crew" />
-                        <PosterListContainer type="movie" data={data.recommendations.results} title="More like this" />
+                        <PosterListContainer type="movie" data={data.recommendations.results} title="More Like This" />
                         <PosterListContainer type="movie" data={data.similar.results} title="Recommendations" />
                     </div>
                 </div>
