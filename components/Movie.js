@@ -11,7 +11,6 @@ import {
 import styles from "../scss/components/movie.module.scss";
 import Link from "next/link";
 import Image from "next/image";
-import { isMobile, isBrowser, MobileView } from "react-device-detect";
 import PosterListContainer from "./molecules/PosterListContainer";
 import CastContainer from "./molecules/CastContainer";
 import ImageListContainer from "./molecules/ImageListContainer";
