@@ -1,15 +1,22 @@
 import { useRouter } from "next/router";
-import { useRef, useState } from "react";
 import styles from "../scss/components/home.module.scss";
 import Head from "next/head";
 import Poster from "./atoms/Poster";
-import { isBrowser, isMobile } from "react-device-detect";
 import ScrollContainer from "react-indiana-drag-scroll";
 
 function Home({ movieData, tvData, base_url }) {
     const router = useRouter();
     let overview =
         "ZFlix is the largest free streaming platform for movies and tv shows. Collaborative media and info service featuring high quality content for a huge selection of titles and new releases! Available in all countries.";
+
+    const shareContent=async()=>{
+        try {
+            await navigator.share({ title: "Example Page", url: "http://localhost:3000/en/hello" });
+            console.log("Data was shared successfully");
+          } catch (err) {
+            console.error("Share failed:", err.message);
+          }
+    }
 
     return (
         <>
@@ -80,6 +87,7 @@ function Home({ movieData, tvData, base_url }) {
                     </div>
                 </section>
             </div>
+            <button onClick={shareContent}>Share </button>
         </>
     );
 }
