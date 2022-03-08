@@ -10,6 +10,7 @@ import CastContainer from "./molecules/CastContainer";
 import PosterListContainer from "./molecules/PosterListContainer";
 import ImageListContainer from "./molecules/ImageListContainer";
 import ImagePreview from "./atoms/ImagePreview";
+import SeasonContainer from "./molecules/SeasonContainer";
 
 function Tv({ data, base_url }) {
     const router = useRouter();
@@ -107,7 +108,7 @@ function Tv({ data, base_url }) {
                                     </p>
                                     <div className={styles2.genres}>
                                         {data?.genres?.map((item, i) => (
-                                            <span className={styles2.genre}>{item.name}</span>
+                                            <span key={i} className={styles2.genre}>{item.name}</span>
                                         ))}
                                     </div>
                                     <p className={styles2.content_overview}>{data.overview}</p>
@@ -126,53 +127,7 @@ function Tv({ data, base_url }) {
                                 </div>
                             </div>
                         </div>
-                        <div className={styles.season_container}>
-                            <div className={styles2.c_header}>
-                                <div className={styles2.h_line} />
-                                <h2>Seasons</h2>
-                                <div className={styles2.h_line} />
-                            </div>
-                            <div className={styles.season_dropdown}>
-                                <div className={styles.seasons}>
-                                    {data.seasons.map((item) => {
-                                        return item.season_number !== 0 ? (
-                                            <Link
-                                                href={
-                                                    "/en/tv/" +
-                                                    id +
-                                                    "/" +
-                                                    name +
-                                                    "/season/" +
-                                                    item.season_number
-                                                }
-                                            >
-                                                <a>
-                                                    <div className={styles.season} >
-                                                        <img
-                                                            src={
-                                                                "https://image.tmdb.org/t/p/w500" +
-                                                                item.poster_path
-                                                            }
-                                                            alt=""
-                                                        />
-                                                        <div className={styles.s_content} >
-                                                            
-                                                            <div className={styles.s_no} >
-                                                                Season {item.season_number}
-                                                            </div>
-                                                            {/* <div className="s-overview">{item.overview}</div> */}
-                                                            <p className={styles.s_e_count}>
-                                                                {item.episode_count} Episodes
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </Link>
-                                        ) : null;
-                                    })}
-                                </div>
-                            </div>
-                        </div>
+                        <SeasonContainer data={data.seasons} id={id} name={name} title="Seasons"  />
                         <ImageListContainer data={data.images.backdrops} imageSelect={imageSelect} title="Images" />
                         <CastContainer type="cast" data={data.credits.cast} title="Cast" />
                         <CastContainer type="crew" data={data.credits.crew} title="Crew" />

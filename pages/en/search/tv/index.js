@@ -1,19 +1,21 @@
-import Search from "../../../components/Search";
+import SearchTv from "../../../../components/SearchTv";
 
-
-function SearchPage({data,total_pages,base_url,total_results}) {
+function SearchMoviePage({data,total_pages,base_url,total_results}) {
     const results=data.results
     
-    return <Search results={data.results} base_url={base_url} total_pages={total_pages} total_results={total_results}  />
+    return <SearchTv results={data.results} base_url={base_url} total_pages={total_pages} total_results={total_results} />
 }
 
 export async function getServerSideProps(context) {
     try {
         let page=context.query.page?context.query.page:1
-        let q=context.query.q?context.query.q:''
+        let q1=context.query.q?context.query.q:''
         if (context.query.q) {
+            let y=q1.slice(-6)
+            let year=y.match(/y(:)[\d]{4}/)?y.split(':')[1]:''
+            let q=y.match(/y(:)[\d]{4}/)?q1.slice(0,-6):q1
             const res = await fetch(
-                `https://api.themoviedb.org/3/search/multi?api_key=${process.env.TMDB_API_KEY}&language=en-US&query=${q}&page=${page}&include_adult=false`
+                `https://api.themoviedb.org/3/search/tv?api_key=${process.env.TMDB_API_KEY}&language=en-US&query=${q}&page=${page}&first_air_date_year=${year}&include_adult=false`
             );
             const data = await res.json();
             if (!data.hasOwnProperty("success")) {
@@ -37,7 +39,6 @@ export async function getServerSideProps(context) {
                 },
             };
         }
-        
         return {
             notFound: true,
         };
@@ -48,4 +49,4 @@ export async function getServerSideProps(context) {
     }
 }
 
-export default SearchPage;
+export default SearchMoviePage;

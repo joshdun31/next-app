@@ -260,31 +260,6 @@
 
             }
 
-            .c_header {
-                display: flex;
-                width: max-content;
-                align-items: center;
-
-                h2 {
-                    font-size: 1.2rem;
-                }
-
-                .h_line {
-                    width: 30px;
-                    height: 0.1px;
-                    margin: 10px auto;
-                    border: none;
-                    border-top: 1px solid #ddd;
-
-                    &:first-child {
-                        margin-right: 10px;
-                    }
-
-                    &:last-child {
-                        margin-left: 10px;
-                    }
-                }
-            }
 
             .content_c {
                 max-width: 85%;
@@ -526,6 +501,31 @@
     }
 }
 
+.c_header {
+    display: flex;
+    width: max-content;
+    align-items: center;
+
+    h2 {
+        font-size: 1.2rem;
+    }
+
+    .h_line {
+        width: 30px;
+        height: 0.1px;
+        margin: 10px auto;
+        border: none;
+        border-top: 1px solid #ddd;
+
+        &:first-child {
+            margin-right: 10px;
+        }
+
+        &:last-child {
+            margin-left: 10px;
+        }
+    }
+}
 .i_preview_container{
     width: 100vw;
     height: 100vh;
@@ -646,14 +646,7 @@
                     }
                    
                 }
-                .c_header{
-                    h2{
-                        font-size: 1.1rem;
-                    }
-                    .h_line{
-                        width: 10px;
-                    }
-                }
+                
                 .recommendation_container{
                     width: calc(100% - 40px);
                     margin: 0px 20px 5px;
@@ -676,10 +669,18 @@
             }
         }
     }
+    .c_header{
+        h2{
+            font-size: 1.1rem;
+        }
+        .h_line{
+            width: 10px;
+        }
+    }
     .i_preview_container{
         .i_poster{
-            width: 80vw !important; 
-            height: 40vh !important;
+            max-width: 100vw !important; 
+            max-height: 40vh !important;
         }
     }
 }
