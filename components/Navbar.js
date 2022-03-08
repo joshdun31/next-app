@@ -77,7 +77,7 @@ function Navbar() {
             }
         };
 
-        if (pathname === "/en/search") {
+        if (pathname.match("/en/search")) {
             setquery(router.query.q);
         }
         return () => {
@@ -119,10 +119,8 @@ function Navbar() {
     };
     const handleSubmit = (e) => {
         e.preventDefault();
-        // navigate({
-        //     pathname: "/en/search",
-        //     search: "?" + new URLSearchParams({ q: query }).toString(),
-        // });
+        setsearchContainerVisible(false)
+        router.push(`/en/search?q=${query}`)
     };
 
     function suggestionUp() {
@@ -361,7 +359,7 @@ function Navbar() {
                                 {results?.results?.length > 4 ? (
                                     <li className={styles.more_results}>
                                         <span>See more results</span>
-                                        <Link href={"/en/search?q=" + query + "&page=1"}>
+                                        <Link href={"/en/search?q=" + query}>
                                             <a>
                                                 <span>
                                                     <i className="bi bi-arrow-right"></i>
@@ -475,7 +473,7 @@ function Navbar() {
                                 {results?.results?.length > 4 ? (
                                     <li className={styles.more_results}>
                                         <span>See more results</span>
-                                        <Link href={"/en/search?q=" + query + "&page=1"}>
+                                        <Link href={"/en/search?q=" + query}>
                                             <a>
                                                 <span>
                                                     <i className="bi bi-arrow-right"></i>

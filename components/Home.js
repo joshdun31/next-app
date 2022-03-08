@@ -9,14 +9,25 @@ function Home({ movieData, tvData, base_url }) {
     let overview =
         "ZFlix is the largest free streaming platform for movies and tv shows. Collaborative media and info service featuring high quality content for a huge selection of titles and new releases! Available in all countries.";
 
-    const shareContent=async()=>{
-        try {
-            await navigator.share({ title: "Example Page", url: "http://localhost:3000/en/hello" });
-            console.log("Data was shared successfully");
-          } catch (err) {
-            console.error("Share failed:", err.message);
-          }
-    }
+    const shareDetails = { url:"http://localhost:3000/en", title:"ZFlix", text:"ZFlix is the largest free streaming platform for movies and tv shows." };
+    const handleSharing = async () => {
+        if (navigator.share) {
+            try {
+            await navigator
+                .share(shareDetails)
+                .then(() =>
+                console.log("Hooray! Your content was shared to tha world")
+                );
+            } catch (error) {
+            console.log(`Oops! I couldn't share to the world because: ${error}`);
+            }
+        } else {
+            // fallback code
+            console.log(
+            "Web share is currently not supported on this browser. Please provide a callback"
+            );
+        }
+        };
 
     return (
         <>
@@ -87,7 +98,6 @@ function Home({ movieData, tvData, base_url }) {
                     </div>
                 </section>
             </div>
-            <button onClick={shareContent}>Share </button>
         </>
     );
 }

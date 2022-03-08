@@ -1,5 +1,4 @@
 import ScrollContainer from 'react-indiana-drag-scroll'
-import styles from '../../scss/components/movie.module.scss'
 import CastPoster from '../atoms/CastPoster'
 import styles2 from "../../scss/components/cast.module.scss";
 import ContainerHeader from '../atoms/ContainerHeader';

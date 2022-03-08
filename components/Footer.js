@@ -10,17 +10,17 @@ function Footer({}) {
                 <div className={styles.contact_us_list}>
                     <Link href="mailto:zflix.contact@protonmail.com">
                         <div className={styles.c_container}>
-                            <i class="bi bi-envelope"></i>
+                            <i className="bi bi-envelope"></i>
                         </div>
                     </Link>
                     <div className={styles.c_container}>
-                        <i class="bi bi-twitter"></i>
+                        <i className="bi bi-twitter"></i>
                     </div>
                     <div className={styles.c_container}>
-                        <i class="bi bi-facebook"></i>
+                        <i className="bi bi-facebook"></i>
                     </div>
                     <div className={styles.c_container}>
-                        <i class="bi bi-instagram"></i>
+                        <i className="bi bi-instagram"></i>
                     </div>
                 </div>
             </div> 

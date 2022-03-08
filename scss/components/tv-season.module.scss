@@ -6,7 +6,7 @@
     color: $text-color;
     .season_d_container {
         display: flex;
-        padding: 10px 40px;
+        padding: 10px 7.5% 20px;
         .s_poster {
             border-radius: 5px;
             background-color: $p-bg;
@@ -38,11 +38,10 @@
     }
 
     .episode_d_container {
-        padding: 10px 40px;
-
+        max-width: 85%;
+        margin: 0 auto;
         .e_container {
             display: flex;
-            flex-wrap: wrap;
 
             .episode {
                 margin: 10px 20px 15px 0px;
@@ -114,5 +113,21 @@
 
         }
 
+    }
+}
+
+@media screen and (max-width:600px) {
+    .seasons_container{
+        .season_d_container{
+            flex-direction: column;
+            padding: 10px;
+            .s_poster{
+                align-self: center;
+                margin-bottom: 10px;
+            }
+        }
+        .episode_d_container{
+            padding: 10px 20px;
+        }
     }
 }
