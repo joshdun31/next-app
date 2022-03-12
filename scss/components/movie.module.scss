@@ -29,7 +29,7 @@
     display: inline-block;
 }
 .w_content {
-    width: 100vw;
+    width: 100%;
     position: relative;
     padding-bottom: 20px;
     background-color: $bg-color;
@@ -57,7 +57,7 @@
 
         .content_parent {
             // background-color: #000;
-            width: 100vw;
+            width: 100%;
             position: relative;
 
             .content_hero {

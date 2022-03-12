@@ -11,7 +11,7 @@ function SearchResultTypes({ active,query,total_results }) {
     return (
         <div className={styles.result_type_container}>
             <div className={styles.result_type}>
-                <div className={styles.r_type_header}>Search Results</div>
+                <div className={styles.r_type_header}>Category</div>
                 <div className={styles.r_types}>
                     {types.map((item, i) => (
                         <TypeBox item={item} key={i} total_results={total_results} active={active == i} count={i} />
