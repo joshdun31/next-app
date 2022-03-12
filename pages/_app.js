@@ -1,6 +1,8 @@
 import "../styles/globals.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import Layout from '../components/Layout'
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+// import Layout1 from '../components/Layout'
 
 function MyApp({ Component, pageProps, router }) {
   // eval(
@@ -40,32 +42,19 @@ function MyApp({ Component, pageProps, router }) {
   //   )
   // );
 
+  const Layout = Component.Layout || EmptyLayout;
   return (
     <>
+      <Navbar />
       <Layout>
-        {/* <PageTransition timeout={250} classNames="page-transition"> */}
-          <Component {...pageProps} key={router.route} />
-        {/* </PageTransition> */}
+        <Component {...pageProps} key={router.asPath} />
       </Layout>
-      <style jsx global>{`
-        .page-transition-enter {
-          opacity: 0;
-        }
-        .page-transition-enter-active {
-          opacity: 1;
-          transition: 250ms;
-        }
-        .page-transition-exit {
-          opacity: 1;
-        }
-        .page-transition-exit-active {
-          opacity: 0;
-          transition: opacity 250ms;
-        }
-      `}</style>
+      <Footer />
     </>
   );
 }
+
+const EmptyLayout = ({ children }) => <>{children}</>;
 
 export default MyApp;
 

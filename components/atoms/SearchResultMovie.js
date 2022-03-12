@@ -55,7 +55,7 @@ function SearchResultMovie({ item }) {
                 <p className={styles.result_tagline}>{item.tagline}</p>
                 <p className={styles.result_date}>
                     <span>
-                        <i class="bi bi-calendar-day"></i>
+                        <i className="bi bi-calendar-day"></i>
                     </span>
                     {getDate(item.release_date)}
                 </p>
@@ -74,7 +74,7 @@ function SearchResultMovie({ item }) {
                     <a>
                         <div className={styles.watch_now}>
                             <span>
-                                <i class="bi bi-play-fill"></i>
+                                <i className="bi bi-play-fill"></i>
                             </span>
                             Watch Now
                         </div>

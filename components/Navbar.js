@@ -262,9 +262,9 @@ function Navbar() {
                                     </li>
                                 </a>
                             </Link>
-                            <Link href="/en/login">
+                            <Link href="/en/torrent">
                                 <a>
-                                    <li className={styles.nav_item}>Genre</li>
+                                    <li className={styles.nav_item}>Torrents</li>
                                 </a>
                             </Link>
                         </ul>

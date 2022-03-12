@@ -1,28 +1,19 @@
-import { useState,useEffect } from 'react';
 import { useRouter } from "next/router";
 import styles from "../scss/components/search.module.scss";
 import Head from "next/head";
 import SearchResultMovie from "./atoms/SearchResultMovie";
-import SearchResultTypes from "./molecules/SearchResultTypes";
-import SearchInput from "./atoms/SearchInput";
+import SearchLayout from '../layouts/SearchLayout';
+import PageContainer from './molecules/PageContainer';
 
 function SearchMovie({ results, total_pages,total_results, base_url }) {
     const router = useRouter();
+    let {page}=router.query
     let overview =
         "ZFlix is the largest free streaming platform for movies and tv shows. Collaborative media and info service featuring high quality content for a huge selection of titles and new releases! Available in all countries.";
-    
-    const [query, setquery] = useState('')
-    useEffect(() => {
-        setquery(router.query.q?router.query.q:'')
-        return () => {
-        }
-    }, [])
-
-    const handleChangeQuery=(e)=>{
-        setquery(e.target.value)
-    }
+    const currentURL="/en/search/movie"
+   
     return (
-        <>
+        <SearchLayout total_results={total_results} active={1} link={currentURL}>
             <Head>
                 <title>{router.query.q} - ZFlix</title>
                 <meta name="title" content={"ZFlix - Watch Movies & TV Shows"} />
@@ -48,26 +39,23 @@ function SearchMovie({ results, total_pages,total_results, base_url }) {
                 <meta property="twitter:description" content={overview} />
                 <meta property="twitter:image" content="/favicon.ico"></meta>
             </Head>
-            <div className={styles.search_container}>
-                <SearchInput link={"/en/search/movie"} handleChangeQuery={handleChangeQuery} query={query} />
-                <div className={styles.whole_results_container}>
-                    <SearchResultTypes total_results={total_results} active={1} query={router.query.q} />
-                    {results?.length?
-                        <div className={styles.search_results}>
-                            <div className={styles.results_container}>
-                                {results.map((item) =>
-                                    <SearchResultMovie item={item} key={item.id} />
-                                )}
-                            </div>
-                        </div>
-                        :
-                        <div className={styles.no_result}>
-                            There are no Movies that matched your query
-                        </div>
-                    }
+            {results?.length?
+                <div className={styles.search_results}>
+                    <PageContainer total_pages={total_pages} page={page?page:1} link={currentURL} />
+                    <div className={styles.results_container}>
+                        {results.map((item) =>
+                            <SearchResultMovie item={item} key={item.id} />
+                        )}
+                    </div>
+                    <PageContainer total_pages={total_pages} page={page?page:1} link={currentURL} />
+
                 </div>
-            </div>
-        </>
+                :
+                <div className={styles.no_result}>
+                    There are no Movies that matched your query
+                </div>
+            }
+        </SearchLayout>
     );
 }
 
