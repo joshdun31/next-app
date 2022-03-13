@@ -91,6 +91,9 @@ function Navbar() {
             inputRef.current.blur();
         }
         setsearchBarActive(false);
+        if (isMobile) {
+            setnavSide(false)
+        }
         return () => {
             setsearchBarActive(false);
         };
@@ -539,6 +542,14 @@ function Navbar() {
                                             </li>
                                         </a>
                                     </Link>
+                                    <Link href="/en/torrent">
+                                        <a>
+                                            <li
+                                                className={styles.nav_item} >
+                                                    Torrents
+                                            </li>
+                                        </a>
+                                        </Link>
                                 </ul>
                             </div>
                         </div>
