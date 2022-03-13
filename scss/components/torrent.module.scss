@@ -4,6 +4,7 @@
 .w_container{
     padding-top: 100px;
     color: $text-color;
+    min-height: calc(100vh - 131px);
     .search_input_container {
         width: 100%;
         position: relative;
@@ -39,7 +40,7 @@
                 padding: 14px 16px;
                 background-color: $nav-color;
                 border-radius: 5px;
-                margin: 0px 0 12px;
+                margin: 0px 0 14px;
                 color: $text-light-color;
                 display: flex;
                 justify-content: space-between;
@@ -79,6 +80,11 @@
                     }
                 }
             }
+        }
+        .torrent_header{
+            color: $text-light-color;
+            font-size: 1.1rem;
+            margin: 10px 0;
         }
     }
 }
@@ -134,15 +140,19 @@
             }
         }
         .result_container{
-            width: 100%;
+            width: calc(100% - 20px);
             padding: 20px 0;
             font-size: 0.9rem;
+            margin: 0 10px;
             .torrent_results{
-                margin: 0 10px;
                 .torrent_box{
-                    padding: 10px;
+                    padding: 10px 12px;
                     .torrent_box_r_1{
+                        .torrent_box_r_c_1{
+                            font-size: 0.9rem;
+                        }
                         .torrent_box_r_c_2{
+                            margin-top: 10px;
                             .torrent_detail_container{
                                 font-size: 0.8rem;
                                 margin-right: 12px;
@@ -151,7 +161,9 @@
                     }
                 }
             }
-           
+            .torrent_header{
+                font-size: 1rem;
+            }
         }
     }
     .dropdown_container{

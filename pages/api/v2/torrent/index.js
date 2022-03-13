@@ -41,6 +41,7 @@ export default async function handler(req, res) {
         res.send({
             results: result,
             total_results: result.length,
+            query:query
         });
         }
        
