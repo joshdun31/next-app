@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import styles from "../scss/components/torrent.module.scss";
@@ -7,14 +7,14 @@ import Head from "next/head";
 const dropValues = [
     { name: "Yts", value: "Yts", type: "Movies" },
     { name: "Pirate Bay", value: "ThePirateBay", type: "All" },
-    {name:'Rarbg',value:"Rarbg",type:"All"}
+    { name: "Rarbg", value: "Rarbg", type: "All" },
 ];
-function TorrentSearch({base_url }) {
+function TorrentSearch({ base_url }) {
     const router = useRouter();
     const [query, setquery] = useState("");
     const [torrents, settorrents] = useState([]);
     const [loading, setloading] = useState(false);
-    const [error, seterror] = useState(false)
+    const [error, seterror] = useState(false);
     const [searchType, setsearchType] = useState({
         name: "Yts",
         value: "Yts",
@@ -22,35 +22,32 @@ function TorrentSearch({base_url }) {
     });
     const [dropdownActive, setdropdownActive] = useState(false);
     let overview =
-    "ZFlix is the largest free streaming platform for movies and tv shows. Collaborative media and info service featuring high quality content for a huge selection of titles and new releases! Available in all countries.";
-
+        "ZFlix is the largest free streaming platform for movies and tv shows. Collaborative media and info service featuring high quality content for a huge selection of titles and new releases! Available in all countries.";
 
     useEffect(() => {
-        window.addEventListener("click",(e)=>{
-            if (e.target.id!=="dropdown" && dropdownActive) {
-                setdropdownActive(false)
+        window.addEventListener("click", (e) => {
+            if (e.target.id !== "dropdown" && dropdownActive) {
+                setdropdownActive(false);
             }
-        })    
-    
-      return () => {
-      }
-    }, [dropdownActive])
-    
+        });
+
+        return () => { };
+    }, [dropdownActive]);
 
     const getTorrents = async (e) => {
         e.preventDefault();
         try {
             setloading(true);
-            seterror(false)
+            seterror(false);
             const { data } = await axios.post("/api/v2/torrent", {
                 query,
                 providers: [searchType.value],
                 type: searchType.type,
             });
-            settorrents(data.results);
+            settorrents(data);
             setloading(false);
         } catch (error) {
-            seterror(true)
+            seterror(true);
             settorrents(error.message.data);
             setloading(false);
         }
@@ -80,12 +77,10 @@ function TorrentSearch({base_url }) {
 
                 <meta property="twitter:card" content="summary_large_image" />
                 <meta property="twitter:url" content={base_url + router.asPath} />
-                <meta
-                    property="twitter:title"
-                    content={"Torrent Search - ZFlix"}
-                />
+                <meta property="twitter:title" content={"Torrent Search - ZFlix"} />
                 <meta property="twitter:description" content={overview} />
                 <meta property="twitter:image" content="/favicon.ico"></meta>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
             </Head>
             <div className={styles.w_container}>
                 <div className={styles.search_input_container}>
@@ -116,7 +111,11 @@ function TorrentSearch({base_url }) {
                             }
                         >
                             {dropValues.map((item, i) => (
-                                <div key={i} className={styles.option} onClick={() => setDropValue(item)}>
+                                <div
+                                    key={i}
+                                    className={styles.option}
+                                    onClick={() => setDropValue(item)}
+                                >
                                     {item.name}
                                 </div>
                             ))}
@@ -133,65 +132,113 @@ function TorrentSearch({base_url }) {
                     >
                         Loading
                     </div>
-                ) : (<>
-                    {!error && torrents?.length?    
-                        <div className={styles.result_container}>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>S.No</th>
-                                        <th>Name</th>
-                                        <th>Size</th>
-                                        <th>Seed</th>
-                                        <th>Leech</th>
-                                        <th>Magnet</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {torrents?.map((item, i) => (
-                                        <tr key={i} className={styles.torrent_box}>
-                                            <td>
-                                                <p>{i+1}</p>
-                                            </td>
-                                            <td className={styles.torrent_box_r_1}>
-                                                <p>{item.title}</p>
-                                            </td>
-                                            <td className={styles.torrent_box_r_2}>
-                                                <p>{item.size}</p>
-                                            </td>
-                                            <td>
-                                                <p>{item.seeds}</p>
-                                            </td>
-                                            <td>
-                                                <p>{item.peers}</p>
-                                            </td>
-                                            <td>
-                                                <a href={item.magnet}>
-                                                    <p>link</p>
-                                                </a>
-                                            </td>
-                                        </tr>
+                ) : (
+                    <>
+                        {!error && torrents?.results?.length ? (
+                            <div className={styles.result_container}>
+                                <div className={styles.torrent_results}>
+                                    {torrents?.results?.map((item, i) => (
+                                        <TorrentBox key={i} item={item} />
                                     ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    :
-                        <>
-                        {error?
-                            <div style={{
-                                margin: "40px auto",
-                                width: "max-content",
-                            }}>
-                                <h3>Could not find torrents</h3>
+                                </div>
                             </div>
-                            :null
-                        }                    
-                        </>
-                    }
+                        ) : (
+                            <>
+                                {error ? (
+                                    <div
+                                        style={{
+                                            margin: "40px auto",
+                                            width: "max-content",
+                                        }}
+                                    >
+                                        <h3>Could not find torrents</h3>
+                                    </div>
+                                ) : null}
+                            </>
+                        )}
                     </>
                 )}
             </div>
         </>
+    );
+}
+
+function TorrentBox({ item }) {
+    const PirateBayMagnetLink=({magnet})=>{
+        return (
+                <a href={magnet}>
+                    <div className={styles.torrent_magnet}>
+                        <span><i class="fa-solid fa-magnet"></i></span>
+                    </div>
+                </a>
+        )
+    }
+
+    const YtsMagnetLink=({hash,title})=>{
+        let link1="magnet:?xt=urn:btih:"
+        let link2="&amp;dn="
+        let link3="&amp;tr=udp%3A%2F%2Fglotorrents.pw%3A6969%2Fannounce&amp;tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&amp;tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&amp;tr=udp%3A%2F%2Fp4p.arenabg.ch%3A1337&amp;tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337"
+        return (
+                <a href={link1+hash+link2+title+link3}>
+                    <div className={styles.torrent_magnet}>
+                        <span><i class="fa-solid fa-magnet"></i></span>
+                    </div>
+                </a>
+        )
+    }
+    const MagnetLink=({item})=>{
+        let magnet;
+        switch (item.provider) {
+            case "ThePirateBay":
+                magnet=<PirateBayMagnetLink magnet={item.magnet} />
+                break;
+            case "Yts":
+                magnet=<YtsMagnetLink hash={item.link} title={item.title} />
+                break;
+            case "Rarbg":
+                    magnet=<PirateBayMagnetLink magnet={item.magnet} />
+                    break;
+            default:
+                magnet=null
+                break;
+        }
+        return magnet
+    }
+    return (
+        <div className={styles.torrent_box}>
+            <div className={styles.torrent_box_r_1}>
+                <div className={styles.torrent_box_r_c_1}>{item.title}</div>
+                <div className={styles.torrent_box_r_c_2}>
+                    <div className={styles.torrent_detail_container}>
+                        <span className={styles.torrent_detail_icon}>
+                            <i className="bi bi-server"></i>
+                        </span>
+                        <span className={styles.torrent_detail_content}>{item.size}</span>
+                    </div>
+                    <div className={styles.torrent_detail_container}>
+                        <span className={styles.torrent_detail_icon}>
+                            <i className="bi bi-upload"></i>
+                        </span>
+                        <span className={styles.torrent_detail_content}>{item.seeds}</span>
+                    </div>
+                    <div className={styles.torrent_detail_container}>
+                        <span className={styles.torrent_detail_icon}>
+                            <i className="bi bi-download"></i>
+                        </span>
+                        <span className={styles.torrent_detail_content}>{item.peers}</span>
+                    </div>
+                    <div className={styles.torrent_detail_container}>
+                        <span className={styles.torrent_detail_icon}>
+                            <i className="bi bi-calendar-day"></i>
+                        </span>
+                        <span className={styles.torrent_detail_content}>{String(item.time).slice(4,16)}</span>
+                    </div>
+                </div>
+            </div>
+            <div className={styles.torrent_box_r_2}>
+                <MagnetLink item={item} />
+            </div>
+        </div>
     );
 }
 
