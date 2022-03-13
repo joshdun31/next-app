@@ -45,6 +45,6 @@ export default async function handler(req, res) {
         }
        
     catch (error) {
-        res.send({ message: "An error occurred", error: error.message });
+        res.status(400).send({ message: "An error occurred", error: error.message });
     }
 }

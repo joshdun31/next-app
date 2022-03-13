@@ -89,3 +89,101 @@
         display: block;
     }
 }
+
+@media screen and (max-width:600px) {
+
+    .w_container{
+        .search_input_container{
+            .search_input {
+                font-size: 0.9rem;
+            }
+        }
+        .result_container{
+            overflow-x: auto;
+            padding: 20px 0;
+            font-size: 0.9rem;
+            table,tbody,thead,td,tr{
+                display: block;
+            }
+            table{
+                thead{
+                    display: none;
+                }
+                .torrent_box{
+                    padding: 4px;
+                    margin: 14px 0 0;
+                    td{
+                        font-size: 0.85rem;
+                        &:nth-child(1){
+                            display: none;
+                            p{
+                                &::before{
+                                    content: "S.No";
+                                    position: absolute;
+                                    left: 14px;
+                                }
+                            }
+                        }
+                        &:nth-child(3){
+                            p{
+                                &::before{
+                                    content: "Size";
+                                    position: absolute;
+                                    left: 14px;
+                                }
+                            }
+                        }
+                        &:nth-child(4){
+                            p{
+                                &::before{
+                                    content: "Seeders";
+                                    position: absolute;
+                                    left: 14px;
+                                }
+                            }
+                        }
+                        &:nth-child(5){
+                            p{
+                                &::before{
+                                    content: "Peers";
+                                    position: absolute;
+                                    left: 14px;
+                                }
+                            }
+                        }&:nth-child(6){
+                            p{
+                                &::before{
+                                    content: "Magnet";
+                                    position: absolute;
+                                    left: 14px;
+                                }
+                            }
+                        }
+                    }
+                    td{
+                        text-align: right;
+                        padding: 8px 14px;
+                        &:nth-child(2){
+                            text-align: center;
+                            font-size: 0.9rem;
+                            font-weight: 600;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .dropdown_container{
+        min-width: 110px;
+        position: relative;
+        font-size: 0.9rem;
+        .selected_value{
+            width: 100%;
+            padding: 10px 8px;
+            position: relative;
+        }
+        .option_container{
+            width: max-content;
+        }
+    }
+}
