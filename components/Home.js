@@ -3,6 +3,7 @@ import styles from "../scss/components/home.module.scss";
 import Head from "next/head";
 import Poster from "./atoms/Poster";
 import ScrollContainer from "react-indiana-drag-scroll";
+import * as ga from '../lib/ga'
 
 function Home({ movieData, tvData, base_url }) {
     const router = useRouter();
@@ -28,6 +29,21 @@ function Home({ movieData, tvData, base_url }) {
             );
         }
         };
+
+        useEffect(() => {
+            const handleRouteChange = (url) => {
+              ga.pageview(url)
+            }
+            //When the component is mounted, subscribe to router changes
+            //and log those page views
+            router.events.on('routeChangeComplete', handleRouteChange)
+        
+            // If the component is unmounted, unsubscribe
+            // from the event with the `off` method
+            return () => {
+              router.events.off('routeChangeComplete', handleRouteChange)
+            }
+          }, [router.events])
 
     return (
         <>
@@ -55,14 +71,6 @@ function Home({ movieData, tvData, base_url }) {
                 />
                 <meta property="twitter:description" content={overview} />
                 <meta property="twitter:image" content="/favicon.ico"></meta>
-                <script async src="https://www.googletagmanager.com/gtag/js?id=G-8FMMTY6M6W"></script>
-                <script>
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments)}
-                gtag('js', new Date());
-
-                gtag('config', 'G-8FMMTY6M6W');
-                </script>
             </Head>
             <div className={styles.main_content}>
                 <section className={styles.section_main}>

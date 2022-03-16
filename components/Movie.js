@@ -101,13 +101,6 @@ function Movie({ data, base_url }) {
                     property="twitter:image"
                     content={"https://image.tmdb.org/t/p/w780" + data.poster_path}
                 ></meta>
-                <script>
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag(){dataLayer.push(arguments)}
-                    gtag('js', new Date());
-
-                    gtag('config', 'G-8FMMTY6M6W');
-                </script>
             </Head>
             <div className={styles.w_content}>
                 <div className={styles.content}>
