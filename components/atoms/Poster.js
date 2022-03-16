@@ -48,7 +48,7 @@ function Poster({ item, type }) {
   };
   return (
     <>
-      <Link href={getLink()} passHref prefetch> 
+      <Link href={getLink()} passHref> 
         <a className={styles.poster_link} >
         <motion.div 
           whileTap={{ scale: 0.9 }}

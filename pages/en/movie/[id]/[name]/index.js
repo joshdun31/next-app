@@ -1,5 +1,6 @@
 import Movie from "../../../../../components/Movie";
 import { motion } from "framer-motion";
+import axios from "axios";
 
 function MoviePage({ data, base_url }) {
     const config = {
@@ -18,6 +19,7 @@ function MoviePage({ data, base_url }) {
 
 export async function getServerSideProps(context) {
     try {
+        axios.post("https://zflix-backend.herokuapp.com/api/v2/add-page-request",{url:context.resolvedUrl})
         const res = await fetch(
             `https://api.themoviedb.org/3/movie/${context.query.id}?api_key=${process.env.TMDB_API_KEY}&append_to_response=images,videos,credits,recommendations,similar`
         );
