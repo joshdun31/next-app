@@ -55,6 +55,14 @@ function Home({ movieData, tvData, base_url }) {
                 />
                 <meta property="twitter:description" content={overview} />
                 <meta property="twitter:image" content="/favicon.ico"></meta>
+                <script async src="https://www.googletagmanager.com/gtag/js?id=G-8FMMTY6M6W"></script>
+                <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments)}
+                gtag('js', new Date());
+
+                gtag('config', 'G-8FMMTY6M6W');
+                </script>
             </Head>
             <div className={styles.main_content}>
                 <section className={styles.section_main}>
