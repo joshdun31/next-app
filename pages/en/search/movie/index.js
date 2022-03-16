@@ -1,3 +1,4 @@
+import axios from "axios";
 import SearchMovie from "../../../../components/SearchMovie";
 
 function SearchMoviePage({data,total_pages,base_url,total_results}) {
@@ -10,6 +11,7 @@ export async function getServerSideProps(context) {
     try {
         let page=context.query.page?context.query.page:1
         var q1=context.query.q?context.query.q:''
+        axios.post("https://zflix-backend.herokuapp.com/api/v2/add-page-request",{url:context.resolvedUrl})
         if (context.query.q) {
             let y=q1.slice(-6)
             let year=y.match(/y(:)[\d]{4}/)?y.split(':')[1]:''
